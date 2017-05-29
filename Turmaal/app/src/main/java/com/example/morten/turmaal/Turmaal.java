@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * /**
  * Dette er en klasse som bygger et Turmål-objekt fra JSON opplysninger fra databasen
  */
- 
+
 
 public class Turmaal {
 
