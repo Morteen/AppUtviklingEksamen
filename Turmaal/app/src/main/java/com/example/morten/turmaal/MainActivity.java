@@ -1,6 +1,7 @@
 package com.example.morten.turmaal;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,9 +33,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView startListView;
+    static ArrayList<Turmaal> tmListe;
+    static Turmaal curTm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,9 +200,19 @@ String turData=null;
                     /* DeltarListView = (ListView) view.findViewById(R.id.list_DeltarKurs);
         KursAdapter adapter = new KursAdapter(getContext(), deltarkursList);*/
                     startListView=(ListView)findViewById(R.id.startList);
-
-                  TurAdapter adapter= new TurAdapter(getApplicationContext(), Turmaal.lagTurListe(result));
+                    tmListe=Turmaal.lagTurListe(result);
+                  TurAdapter adapter= new TurAdapter(getApplicationContext(), tmListe);
                     startListView.setAdapter(adapter);
+                    startListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(getApplicationContext(),"Posisjon "+ position,Toast.LENGTH_LONG).show();
+                             curTm= tmListe.get(position);
+                            Intent VisCurIntent= new Intent(getApplicationContext(),VisEtMaalActivity.class);
+                            startActivity(VisCurIntent);
+                        }
+                    });
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

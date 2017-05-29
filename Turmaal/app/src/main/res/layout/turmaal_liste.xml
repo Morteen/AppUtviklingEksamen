@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="5dp"
     android:id="@+id/backgrund">
 
 
@@ -41,4 +42,12 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="57dp"
         android:layout_marginTop="193dp" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center" />
+
+
 </RelativeLayout>

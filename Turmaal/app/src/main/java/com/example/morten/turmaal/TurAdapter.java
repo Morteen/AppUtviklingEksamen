@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -115,27 +116,28 @@ public class TurAdapter extends BaseAdapter {
         //String url="https://jsonparsingdemo-cec5b.firebaseapp.com/jsonData/images/avengers.jpg";//currentMaal.getBilde_URL();
         String url="https://peakbook.org/gfx/pbes/e1/4f/e14f2c0c9152f1c78681652ff1189f2b/1.jpg";
 
-
+        final ProgressBar progressBar; progressBar=(ProgressBar)convertView.findViewById(R.id.progressBar) ;
 
         ImageLoader.getInstance().displayImage( url,bakgrundsbilde , new ImageLoadingListener() {
-            @Override
+            @Override                                                                                                               // progrssbaren, den trenger ikke være med
             public void onLoadingStarted(String imageUri, View view) {
-
+                progressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                progressBar.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
-
+                progressBar.setVisibility(View.GONE);
             }
 
         });
