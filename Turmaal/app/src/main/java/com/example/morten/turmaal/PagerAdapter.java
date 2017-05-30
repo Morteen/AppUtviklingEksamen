@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * Created by morten on 29.05.2017.
+ * Dette er en adapter klasse for å kunne svipe mellom flere fragmenter
  */
 
 public class PagerAdapter extends FragmentPagerAdapter {
@@ -18,11 +19,12 @@ public class PagerAdapter extends FragmentPagerAdapter {
         if(position==0){
             return new ValgtTurmaalFragment();
         }else{
-            Fragment map=(Fragment)new MapFragment();
-            return map;
+
+            //return new ForeldreFragment();
+            return new MapFragment();
         }
 
-        return null;
+
     }
 
     @Override

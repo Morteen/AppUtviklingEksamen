@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Turmaal</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_vis_et_maal">VisEtMaalActivity</string>
+    <string name="app_name">Ut på¨tur</string>
+    <string name="action_settings">Registrer navn</string>
+    <string name="title_activity_vis_et_maal">Ut på tur</string>
     <string name="title_activity_maps">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registrer">Registrer</string>
+    <string name="legg_inn_et_navn_for_du_vil_registrere_turm_l_under">Legg inn et navn for du vil \n registrere turmålet under</string>
+    <string name="title_activity_reg_turmaal">RegTurmaalActivity</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.morten.turmaal;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,7 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView startListView;
     static ArrayList<Turmaal> tmListe;
     static Turmaal curTm;
+    static String regAnsvarligNavn ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //sjekker om brukeren er online
-        if(isOnline()){
+        if (isOnline()) {
             new JsonStartTask().execute();
         }
 
@@ -71,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent regTurmaalIntent= new Intent(MainActivity.this,RegTurmaalActivity.class);
+                startActivity(regTurmaalIntent);
             }
         });
     }
@@ -93,6 +97,39 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this);
+            ab.setTitle("Legg inn et navn for du vil \n registrere turmålet under");
+            final EditText etNavn = new EditText(MainActivity.this);
+            ab.setView(etNavn);
+
+            //Legger til en positiv reaksjon knapp for å legge inn tekst i tekstviewet
+            ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if (!etNavn.getText().toString().isEmpty()) {
+                        Toast.makeText(MainActivity.this, "Du er registrert", Toast.LENGTH_SHORT).show();
+                       regAnsvarligNavn=etNavn.getText().toString();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Fyll inn feltet", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            });
+
+
+            ab.setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+
+                }
+            });
+            AlertDialog a = ab.create();
+            a.show();
+
+
             return true;
         }
 
@@ -104,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
         ProgressDialog progressDialog;
 
-String turData=null;
+        String turData = null;
+
         @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
         public JsonStartTask() {
             super();
@@ -131,7 +169,7 @@ String turData=null;
             String line = "";
             String result = "";
             InputStream is = null;
-            String turmaalURL="http://itfag.usn.no/~210144/api.php/Turmaal?transform=1";
+            String turmaalURL = "http://itfag.usn.no/~210144/api.php/Turmaal?transform=1";
 
             HttpURLConnection connection = null;
             try {
@@ -189,26 +227,25 @@ String turData=null;
 
 
         @Override
-        protected void onPostExecute(String  result) {
+        protected void onPostExecute(String result) {
 
-            if (result!=null) {
+            if (result != null) {
 
                 progressDialog.cancel();
 
 
                 try {
-                    /* DeltarListView = (ListView) view.findViewById(R.id.list_DeltarKurs);
-        KursAdapter adapter = new KursAdapter(getContext(), deltarkursList);*/
-                    startListView=(ListView)findViewById(R.id.startList);
-                    tmListe=Turmaal.lagTurListe(result);
-                  TurAdapter adapter= new TurAdapter(getApplicationContext(), tmListe);
+
+                    startListView = (ListView) findViewById(R.id.startList);
+                    tmListe = Turmaal.lagTurListe(result);
+                    TurAdapter adapter = new TurAdapter(getApplicationContext(), tmListe);
                     startListView.setAdapter(adapter);
                     startListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getApplicationContext(),"Posisjon "+ position,Toast.LENGTH_LONG).show();
-                             curTm= tmListe.get(position);
-                            Intent VisCurIntent= new Intent(getApplicationContext(),VisEtMaalActivity.class);
+                            Toast.makeText(getApplicationContext(), "Posisjon " + position, Toast.LENGTH_LONG).show();
+                            curTm = tmListe.get(position);
+                            Intent VisCurIntent = new Intent(getApplicationContext(), VisEtMaalActivity.class);
                             startActivity(VisCurIntent);
                         }
                     });
@@ -240,7 +277,6 @@ String turData=null;
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
-
 
 
 }

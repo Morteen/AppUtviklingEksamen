@@ -1,7 +1,6 @@
 package com.example.morten.turmaal;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapFragment extends FragmentActivity implements OnMapReadyCallback {
+public class MapFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback {
 
+    private GoogleMap mMap;
 
     public MapFragment() {
         // Required empty public constructor
@@ -35,7 +35,7 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
          View view =inflater.inflate(R.layout.activity_maps, container, false);
 
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager()//getSupportFragmentManager
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -50,10 +50,12 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
 
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        //Flytter markøren og kamera til valgte posisjon
+        LatLng valgteTM = new LatLng(MainActivity.curTm.getBreddegrad(), MainActivity.curTm.getLengdegrad());
+        mMap.addMarker(new MarkerOptions().position(valgteTM).title(MainActivity.curTm.getNavn()));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(valgteTM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valgteTM, 10.2f));//10.2 er zoom level
 
     }
 }
