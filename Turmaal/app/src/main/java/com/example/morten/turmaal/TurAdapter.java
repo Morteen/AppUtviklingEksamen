@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 /**
  * Created by morten on 29.05.2017.
+ * Dette er et listview adapte slik at alle turmålene kan ses i et listview
  */
 
 public class TurAdapter extends BaseAdapter {
@@ -56,20 +57,6 @@ public class TurAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView bakgrundsbilde = new ImageView(mContext);
-        //Dette er for å vise bilder fra JsonObjektet
-        // Create global configuration and initialize ImageLoader with this config
-        // Create default options which will be used for every
-//  displayImage(...) call if no options will be passed to this method
-      /*  DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext)
-                .defaultDisplayImageOptions(defaultOptions)
-                .build();
-        ImageLoader.getInstance().init(config);
-        ImageLoader.getInstance().init(config);*/
-
 
 
         ViewHolder viewHolder;
@@ -99,15 +86,7 @@ public class TurAdapter extends BaseAdapter {
        Turmaal currentMaal = mineTuraal.get(position);
 
 
-        /*if (position == 0) {
-            viewHolder.tvStartNavn.setText("Navn\n\n" + currentMaal.getNavn());
-            viewHolder.tvStartType.setText("Type\n\n" + currentMaal.getType());
-            viewHolder.tvStartHoyde.setText("Høyde\n\n" +Integer.toString(currentMaal.getHoyde()));
-        } else {
-            viewHolder.tvStartNavn.setText(currentMaal.getNavn());
-            viewHolder.tvStartType.setText(currentMaal.getType());
-            viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()));
-        }*/
+
 
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());

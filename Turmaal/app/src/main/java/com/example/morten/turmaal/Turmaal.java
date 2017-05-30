@@ -1,5 +1,7 @@
 package com.example.morten.turmaal;
 
+import android.database.Cursor;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +106,8 @@ public class Turmaal {
 
 
 
+
+
     // Konstruktør som bygger Turmaalobjekt basert på et JSONObject-objekt
     public Turmaal(JSONObject jsonTurmaal) throws JSONException {
         this.setNavn( jsonTurmaal.optString(KOL_NAVN_Navn));
@@ -133,6 +137,25 @@ public class Turmaal {
         return turmaalListe;
     }
 
+public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
+    ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
+    while(cursor.moveToNext()){
+        Turmaal maal= new Turmaal();
+        maal.setNavn(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Navn)));
+        maal.setType(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Type)));
+        maal.setHoyde(cursor.getInt(cursor.getColumnIndex(Turmaal.KOL_NAVN_Hoyde)));
+        maal.setBeskrivelse(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Beskrivelse)));
+        maal.setRegAnsvarlig(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_RegAnsvarlig)));
+        maal.setLengdegrad(cursor.getFloat(cursor.getColumnIndex(Turmaal.KOL_NAVN_Lengdegrad)));
+        maal.setBreddegrad(cursor.getFloat(cursor.getColumnIndex(Turmaal.KOL_NAVN_Breddegrad)));
+        maal.setBilde_URL(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Bilde_URL)));
+
+        turmaalListe.add(maal);
+    }
+
+    return turmaalListe;
+
+}
 
 
     public JSONObject toJSONObject() {

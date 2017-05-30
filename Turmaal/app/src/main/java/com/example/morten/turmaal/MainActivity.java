@@ -1,8 +1,10 @@
 package com.example.morten.turmaal;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -27,11 +29,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DatabaseOperasjoner dbOp = new DatabaseOperasjoner(MainActivity.this);
+
+
+        if (isOnline()) {
+            LastOppFraSQLite lastOpp= new LastOppFraSQLite(MainActivity.this);
+            lastOpp.execute();
+        }
 
         //Dette er for å vise bilder fra JsonObjektet
         // Create global configuration and initialize ImageLoader with this config
@@ -276,6 +287,85 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(MainActivity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+
+    ////////////////////////////////////////////////////////////////
+
+     class LastOppFraSQLite2 extends AsyncTask<String,String,Long> {
+
+         public LastOppFraSQLite2() {
+
+         }
+
+         HttpURLConnection connection = null;
+Context context=MainActivity.this;
+
+
+        DatabaseOperasjoner dbOpersjoner= new DatabaseOperasjoner(context);
+        private Long result;
+
+
+
+        @Override
+        protected Long doInBackground(String... params) {
+            Cursor cursor=dbOpersjoner.getInformation(dbOpersjoner);
+            ArrayList<Turmaal> tmList=Turmaal.lagTurListeFraSqlite(cursor);
+
+            String insert_URI = "http://itfag.usn.no/~210144/api.php/Turmaal";
+            try {
+                URL insertUrl= new URL(insert_URI);
+                connection=(HttpURLConnection) insertUrl.openConnection();
+                connection.setDoInput(true);
+                connection.setRequestMethod("POST");
+                //connection.setRequestProperty("Content- Type","application/json; charset=UTF -8" ");
+                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                for (int i=0;i<tmList.size();i++){
+
+                    JSONObject JsonMaal= tmList.get(i).toJSONObject();
+                    out.write(JsonMaal.toString());
+
+                }
+                out.close();
+                int status=connection.getResponseCode();
+                if(status==HttpURLConnection.HTTP_OK){
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(),"utf-8"));
+                    String responseString ;
+                    StringBuilder sb= new StringBuilder();
+                    while ((responseString=reader.readLine())!=null){
+                        sb=sb.append(responseString);
+                        reader.close();
+                        if(sb.toString().equals("0")){
+                            return 0l;
+                        }else{
+                            return 1l;
+                        }
+                    }
+                }else {return 1l;}
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Long result) {
+
+            if(result==0){
+                Toast.makeText(context,"Tror det virket",Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(context,"Noe er galt",Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+
     }
 
 
