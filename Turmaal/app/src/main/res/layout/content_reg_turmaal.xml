@@ -6,23 +6,40 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.morten.turmaal.RegTurmaalActivity"
-    tools:showIn="@layout/activity_reg_turmaal">
+    tools:showIn="@layout/activity_reg_turmaal"
+    android:padding="10dp">
 
     <Button
         android:id="@+id/regKnp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="219dp"
         android:text="Registrer turmål"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
 
     <Button
         android:id="@+id/kameraKnp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kamera"
+        android:layout_below="@+id/regKnp"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:id="@+id/lagre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/regKnp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="Kamera" />
+        android:text="Visbilde" />
 </RelativeLayout>
