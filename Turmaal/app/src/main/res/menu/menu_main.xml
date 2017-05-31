@@ -3,8 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.morten.turmaal.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_RegNavn"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/registrer_navn"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_Endre"
+        android:orderInCategory="100"
+        android:title="@string/endre_opplysninger"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_Slett"
+        android:orderInCategory="100"
+        android:title="Slett "
+        app:showAsAction="never" />
+
 </menu>

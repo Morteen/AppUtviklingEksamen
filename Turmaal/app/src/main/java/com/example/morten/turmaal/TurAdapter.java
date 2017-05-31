@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by morten on 29.05.2017.
- * Dette er et listview adapte slik at alle turmålene kan ses i et listview
+ * Dette er et listview adapter slik at alle turmålene kan ses i et listview
  */
 
 public class TurAdapter extends BaseAdapter {
@@ -54,7 +54,7 @@ public class TurAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView bakgrundsbilde = new ImageView(mContext);
+        //ImageView bakgrundsbilde = new ImageView(mContext);
 
 
         ViewHolder viewHolder;
@@ -73,7 +73,7 @@ public class TurAdapter extends BaseAdapter {
 
             viewHolder.tvStartHoyde = (TextView) convertView.findViewById(R.id.tvStartHoyde);
             viewHolder.background=(RelativeLayout) convertView.findViewById(R.id.backgrund);
-            viewHolder.visURl=(TextView)convertView.findViewById(R.id.url) ;
+            //viewHolder.visURl=(TextView)convertView.findViewById(R.id.url) ;
 
             convertView.setTag(viewHolder);
         } else {
@@ -89,13 +89,13 @@ public class TurAdapter extends BaseAdapter {
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
         viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde())+" meter over havet");
-        viewHolder.visURl.setText(currentMaal.getBilde_URL());
+
         Log.d("BildeURL",currentMaal.getBilde_URL());
 
-        new DownloadImageTask((ImageView)bakgrundsbilde).execute("http://www.godtur.no/godtur/nyartikkel/multimedia/kvalitet4/9058.jpg");
+        //new DownloadImageTask((ImageView)bakgrundsbilde).execute("http://www.godtur.no/godtur/nyartikkel/multimedia/kvalitet4/9058.jpg");
 
 
-        convertView.setBackground(bakgrundsbilde.getDrawable());
+        //convertView.setBackground(bakgrundsbilde.getDrawable());
         return convertView;
     }
 

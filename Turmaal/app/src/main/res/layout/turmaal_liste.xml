@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="5dp"
+    android:paddingBottom="10dp"
     android:id="@+id/backgrund">
 
 
@@ -15,9 +15,9 @@
        android:textColor="@color/colorPrimaryDark"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/progressBar"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tvStartType"
@@ -26,10 +26,9 @@
 
         android:text="Type"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_alignBaseline="@+id/tvStartHoyde"
+        android:layout_marginBottom="94dp"
         android:layout_alignBottom="@+id/tvStartHoyde"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="49dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tvStartHoyde"
@@ -39,24 +38,13 @@
         android:textColor="@color/colorPrimaryDark"
 
 
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="57dp"
-        android:layout_marginTop="193dp" />
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="207dp"
         android:layout_below="@+id/tvStartNavn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:text="URL" />
+        android:layout_centerHorizontal="true" />
+
+
+
+
 
 
 </RelativeLayout>

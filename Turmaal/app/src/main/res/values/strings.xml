@@ -9,4 +9,6 @@
     <string name="registrer">Registrer</string>
     <string name="legg_inn_et_navn_for_du_vil_registrere_turm_l_under">Legg inn et navn for du vil \n registrere turmålet under</string>
     <string name="title_activity_reg_turmaal">RegTurmaalActivity</string>
+    <string name="registrer_navn">Registrer navn</string>
+    <string name="endre_opplysninger">Endre Opplysninger</string>
 </resources>
