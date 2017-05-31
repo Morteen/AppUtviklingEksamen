@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Turmaal> list = Turmaal.lagTurListeFraSqlite(CR);
                 new LastOppFraSQLite(getApplicationContext(), list).execute();
 
-                tilgang = false;
+              
             }
 
 
