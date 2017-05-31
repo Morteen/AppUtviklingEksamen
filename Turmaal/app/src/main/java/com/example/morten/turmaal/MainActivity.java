@@ -43,11 +43,10 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Turmaal> tmListe;
     static Turmaal curTm;
     static String regAnsvarligNavn;
-    private boolean tilgang = false;
+    private boolean tilgang ;
 
     public static final String REGANSVARLIGINFO = "com.example.morten.turmaal";
     public static final String FIRST_USE_SETTING = "com.example.morten.turmaal";
-
 
 
     @Override
@@ -56,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tilgang=false;
+
+
         Turmaal maal = new Turmaal();
         maal.setNavn("Test");
         maal.setType("Topp");
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Turmaal> list = Turmaal.lagTurListeFraSqlite(CR);
                 new LastOppFraSQLite(getApplicationContext(), list).execute();
 
-              
+
             }
 
 
@@ -121,24 +123,26 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        final Dialog dialog = new Dialog(MainActivity.this);
+        //final Dialog dialog = new Dialog(MainActivity.this);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_RegNavn) {
-            // Henter delte preferanser
-            AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this);
-            View mView = getLayoutInflater().inflate(R.layout.layout_dialogbox, null);
 
+            final Dialog dialog = new Dialog(MainActivity.this);
+
+            dialog.setContentView(R.layout.layout_dialogbox);
             final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
             final SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
-            final EditText mNavn = (EditText) mView.findViewById(R.id.editNavn);
-            final EditText mPassword = (EditText) mView.findViewById(R.id.editPass);
-            Button endre = (Button) mView.findViewById(R.id.login_btn);
-            Button avbryt = (Button) mView.findViewById(R.id.avslutt_btn);
-            TextView tekst = (TextView) mView.findViewById(R.id.dialogBoxTekst);
+            final EditText mNavn = (EditText) dialog.findViewById(R.id.editNavn);
+            final EditText mPassword = (EditText) dialog.findViewById(R.id.editPass);
+            Button endre = (Button) dialog.findViewById(R.id.login_btn);
+            Button avbryt = (Button) dialog.findViewById(R.id.avslutt_btn);
+            TextView tekst = (TextView) dialog.findViewById(R.id.dialogBoxTekst);
             tekst.setText("Legg inn navn og passord");
+
+
             boolean firstUse = preferences.getBoolean(FIRST_USE_SETTING, true);
             if (firstUse) {
                 endre.setOnClickListener(new View.OnClickListener() {
@@ -149,17 +153,25 @@ public class MainActivity extends AppCompatActivity {
                         if (!mNavn.getText().toString().isEmpty() || mPassword.getText().toString().isEmpty()) {
                             regAnsvarligNavn = mNavn.getText().toString();
                             editor.putString("regAnsvarligNavn", regAnsvarligNavn);
-                            editor.putString("Passord", mPassword.getText().toString());
-                            tilgang = true;
                             editor.apply();
+                            editor.putString("Passord", mPassword.getText().toString());
+                            editor.apply();
+                            tilgang = true;
                             Toast.makeText(MainActivity.this, "Du er registrert og lagret", Toast.LENGTH_SHORT).show();
-                            dialog.cancel();
+                            dialog.dismiss();
                         } else {
                             Toast.makeText(MainActivity.this, "Fyll inn feltet", Toast.LENGTH_SHORT).show();
-                          
+
 
                         }
 
+                    }
+                });
+                avbryt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tilgang=false;
+                        dialog.dismiss();
                     }
                 });
 
@@ -174,17 +186,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        if (!mPassword.getText().toString().isEmpty()&&preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
+                        if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
 
 
-                                Toast.makeText(MainActivity.this, preferences.getString("Passord", "") + "  " + mPassword.getText().toString(), Toast.LENGTH_SHORT).show();
-                                tilgang = true;
+                            Toast.makeText(MainActivity.this, preferences.getString("Passord", "") + "  " + mPassword.getText().toString(), Toast.LENGTH_SHORT).show();
+                            tilgang = true;
 
 
                             Toast.makeText(MainActivity.this, "Du kan gå videre", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
                         } else {
                             Toast.makeText(MainActivity.this, "Passordet er feil", Toast.LENGTH_SHORT).show();
+                            tilgang=false;
                             dialog.dismiss();
 
                         }
@@ -192,13 +205,18 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
+                avbryt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tilgang=false;
+                        dialog.dismiss();
+                    }
+                });
 
 
             }
 
-            ab.setView(mView);
-            AlertDialog a = ab.create();
-            a.show();
+            dialog.show();
 
 
             return true;
@@ -207,45 +225,52 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_Endre) {
 
 
-            // Henter delte preferanser
-            AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this);
-            View mView = getLayoutInflater().inflate(R.layout.layout_dialogbox, null);
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.layout_dialogbox);
 
             final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
             final SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
-            final EditText mNavn = (EditText) mView.findViewById(R.id.editNavn);
-            final EditText mPassword = (EditText) mView.findViewById(R.id.editPass);
-            Button endre = (Button) mView.findViewById(R.id.login_btn);
-            Button avbryt = (Button) mView.findViewById(R.id.avslutt_btn);
-            TextView tekst = (TextView) mView.findViewById(R.id.dialogBoxTekst);
+            final EditText mNavn = (EditText) dialog.findViewById(R.id.editNavn);
+            final EditText mPassword = (EditText) dialog.findViewById(R.id.editPass);
+            Button endre = (Button) dialog.findViewById(R.id.login_btn);
+            Button avbryt = (Button) dialog.findViewById(R.id.avslutt_btn);
+            TextView tekst = (TextView) dialog.findViewById(R.id.dialogBoxTekst);
 
             // Read the FIRST_USE_SETTING. Default value=true
             boolean firstUse = preferences.getBoolean(FIRST_USE_SETTING, true);
             if (!firstUse) {
                 tekst.setText("Endre navn eller Passord");
 
-
                 endre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
+                        if (mNavn.getText().toString().isEmpty() && mPassword.getText().toString().isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Du har ikke gjort noen endringer", Toast.LENGTH_SHORT).show();
+                        }else{
+
                         if (!mNavn.getText().toString().isEmpty()) {
                             regAnsvarligNavn = mNavn.getText().toString();
                             editor.putString("regAnsvarligNavn", regAnsvarligNavn);
+                            editor.apply();
                         }
                         if (!mPassword.getText().toString().isEmpty()) {
                             editor.putString("Passord", mPassword.getText().toString());
                             tilgang = true;
                             editor.apply();
+
+
+                        }
                             Toast.makeText(MainActivity.this, "Dine endringer er registrert og lagret", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
                         }
-                        if (mNavn.getText().toString().isEmpty() && mPassword.getText().toString().isEmpty()) {
-                            Toast.makeText(MainActivity.this, "Du har ikke gjort noen endringer", Toast.LENGTH_SHORT).show();
-                        }
-                        dialog.dismiss();
+
+
+
+
                     }
 
 
@@ -254,12 +279,16 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 Toast.makeText(MainActivity.this, "Du må først registrer deg", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
 
-            ab.setView(mView);
-            AlertDialog a = ab.create();
-            a.show();
+            }
+            avbryt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
 
 
         } else if (id == R.id.action_Slett) {
@@ -278,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     final SharedPreferences.Editor editor = preferences.edit();
                     editor.clear();
                     editor.apply();
+                    tilgang=false;
                     dialog.dismiss();
 
                 }
