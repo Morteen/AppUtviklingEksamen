@@ -7,7 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Beskrivelse;
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Breddegrad;
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Hoyde;
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Lengdegrad;
 import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Navn;
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_RegAnsvarlig;
+import static com.example.morten.turmaal.Turmaal.KOL_NAVN_Type;
 import static com.example.morten.turmaal.Turmaal.TABELL_NAVN;
 
 
@@ -83,7 +92,34 @@ public class DatabaseOperasjoner extends SQLiteOpenHelper {
         Log.d("Database operations", "login info er funnet");
         return CR;
     }
+    public List<Turmaal> getAlleTurmaal() {
+        List<Turmaal> tm= new ArrayList<Turmaal>();
+        String selectQuery = "SELECT  * FROM " + TABELL_NAVN;
 
+        Log.e("LOG", selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+              Turmaal t = new Turmaal();
+                t.setNavn(c.getString((c.getColumnIndex(KOL_NAVN_Navn))));
+                t.setType((c.getString(c.getColumnIndex(KOL_NAVN_Type))));
+                t.setBeskrivelse(c.getString(c.getColumnIndex(KOL_NAVN_Beskrivelse)));
+                 t.setHoyde((c.getInt(c.getColumnIndex(KOL_NAVN_Hoyde))));
+                t.setHoyde((c.getInt(c.getColumnIndex(KOL_NAVN_Hoyde))));
+                t.setRegAnsvarlig((c.getString(c.getColumnIndex(KOL_NAVN_RegAnsvarlig))));
+                t.setLengdegrad((c.getFloat(c.getColumnIndex(KOL_NAVN_Lengdegrad))));
+                t.setBreddegrad((c.getFloat(c.getColumnIndex(KOL_NAVN_Breddegrad))));
+                // Legget til tm listen
+                tm.add(t);
+            } while (c.moveToNext());
+        }
+
+        return tm;
+    }
 
     public Cursor getRegAnsvarligNavn(DatabaseOperasjoner DOP, String navn) {
         SQLiteDatabase SQ = DOP.getReadableDatabase();

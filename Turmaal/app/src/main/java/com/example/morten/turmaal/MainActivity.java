@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (isOnline()) {
-            LastOppFraSQLite lastOpp= new LastOppFraSQLite(MainActivity.this);
-            lastOpp.execute();
+           // LastOppFraSQLite lastOpp= new LastOppFraSQLite(MainActivity.this);
+            //lastOpp.execute();
         }
 
         //Dette er for å vise bilder fra JsonObjektet
