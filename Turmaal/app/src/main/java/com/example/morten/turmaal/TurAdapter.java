@@ -2,20 +2,18 @@ package com.example.morten.turmaal;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -75,7 +73,7 @@ public class TurAdapter extends BaseAdapter {
 
             viewHolder.tvStartHoyde = (TextView) convertView.findViewById(R.id.tvStartHoyde);
             viewHolder.background=(RelativeLayout) convertView.findViewById(R.id.backgrund);
-
+            viewHolder.visURl=(TextView)convertView.findViewById(R.id.url) ;
 
             convertView.setTag(viewHolder);
         } else {
@@ -91,35 +89,11 @@ public class TurAdapter extends BaseAdapter {
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
         viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde())+" meter over havet");
+        viewHolder.visURl.setText(currentMaal.getBilde_URL());
         Log.d("BildeURL",currentMaal.getBilde_URL());
-        //String url="https://jsonparsingdemo-cec5b.firebaseapp.com/jsonData/images/avengers.jpg";//currentMaal.getBilde_URL();
-        String url="https://peakbook.org/gfx/pbes/e1/4f/e14f2c0c9152f1c78681652ff1189f2b/1.jpg";
 
-        final ProgressBar progressBar; progressBar=(ProgressBar)convertView.findViewById(R.id.progressBar) ;
+        new DownloadImageTask((ImageView)bakgrundsbilde).execute("http://www.godtur.no/godtur/nyartikkel/multimedia/kvalitet4/9058.jpg");
 
-        ImageLoader.getInstance().displayImage( url,bakgrundsbilde , new ImageLoadingListener() {
-            @Override                                                                                                               // progrssbaren, den trenger ikke være med
-            public void onLoadingStarted(String imageUri, View view) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                progressBar.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                progressBar.setVisibility(View.GONE);
-            }
-
-        });
 
         convertView.setBackground(bakgrundsbilde.getDrawable());
         return convertView;
@@ -134,10 +108,41 @@ public class TurAdapter extends BaseAdapter {
         public TextView tvStartNavn;
         public TextView tvStartType;
         public TextView tvStartHoyde;
+        public TextView visURl;
         public RelativeLayout background;
 
 
     }
+//TODO Fra ndroid Developer
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+
+//https://peakbook.org/gfx/images/9/b3/dolati_20150317_55080829b39d2.jpg/dolati_20150317_55080829b39d2-1.jpg
+
+
 
 
 }

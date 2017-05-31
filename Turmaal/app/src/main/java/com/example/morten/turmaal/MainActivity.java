@@ -1,7 +1,6 @@
 package com.example.morten.turmaal;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,18 +23,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,32 +46,55 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+Turmaal maal= new Turmaal();
+        maal.setNavn("Test");
+        maal.setType("Topp");
+        maal.setBeskrivelse("test");
+        maal.setRegAnsvarlig("test");
+        maal.setHoyde(10);
+        maal.setLengdegrad(9.3322444f);
+        maal.setBreddegrad(59.634343f);
+       maal.setBilde_URL("http//Test.no");
         DatabaseOperasjoner dbOp = new DatabaseOperasjoner(MainActivity.this);
+
+        dbOp.putInformation(dbOp,maal);
 
 
         if (isOnline()) {
-           // LastOppFraSQLite lastOpp= new LastOppFraSQLite(MainActivity.this);
-            //lastOpp.execute();
+            if(DatabaseOperasjoner.doesDatabaseExist(MainActivity.this,"TUR.DB")){
+
+                Toast.makeText(this, "SQLI basen ER opprettet!!", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this, "SQLI basen er ikke opprettet", Toast.LENGTH_LONG).show();
+            }
+
+
+            Cursor CR =dbOp.getInformation(dbOp);
+           if(CR!=null){
+              CR.moveToFirst();
+                   Toast.makeText(getApplicationContext(),CR.getString(6).toString(),Toast.LENGTH_LONG).show();
+               ArrayList<Turmaal>list=Turmaal.lagTurListeFraSqlite(CR);
+               Toast.makeText(getApplicationContext(),list.size()+" Liste size",Toast.LENGTH_LONG).show();
+               for(int i=0;i<list.size();i++){
+               new LastOppFraSQLite(getApplicationContext(),list.get(i)).execute();
+               }
+           }
+           //dbOp.slettSqliteBase(dbOp);
+            Cursor CR2 =dbOp.getInformation(dbOp);
+            if(CR2!=null){
+                ArrayList<Turmaal>list2=Turmaal.lagTurListeFraSqlite(CR2);
+                              Toast.makeText(getApplicationContext(), list2.size()+ " Etter sletting av SQLIte DB",Toast.LENGTH_LONG).show();
+
+            }
+
         }
 
-        //Dette er for å vise bilder fra JsonObjektet
-        // Create global configuration and initialize ImageLoader with this config
-        // Create default options which will be used for every
-//  displayImage(...) call if no options will be passed to this method
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .build();
-        ImageLoader.getInstance().init(config);
-        ImageLoader.getInstance().init(config);
+
 
 
         //sjekker om brukeren er online
         if (isOnline()) {
+
             new JsonStartTask().execute();
         }
 
@@ -292,81 +308,7 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////
 
-     class LastOppFraSQLite2 extends AsyncTask<String,String,Long> {
 
-         public LastOppFraSQLite2() {
-
-         }
-
-         HttpURLConnection connection = null;
-Context context=MainActivity.this;
-
-
-        DatabaseOperasjoner dbOpersjoner= new DatabaseOperasjoner(context);
-        private Long result;
-
-
-
-        @Override
-        protected Long doInBackground(String... params) {
-            Cursor cursor=dbOpersjoner.getInformation(dbOpersjoner);
-            ArrayList<Turmaal> tmList=Turmaal.lagTurListeFraSqlite(cursor);
-
-            String insert_URI = "http://itfag.usn.no/~210144/api.php/Turmaal";
-            try {
-                URL insertUrl= new URL(insert_URI);
-                connection=(HttpURLConnection) insertUrl.openConnection();
-                connection.setDoInput(true);
-                connection.setRequestMethod("POST");
-                //connection.setRequestProperty("Content- Type","application/json; charset=UTF -8" ");
-                OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-                for (int i=0;i<tmList.size();i++){
-
-                    JSONObject JsonMaal= tmList.get(i).toJSONObject();
-                    out.write(JsonMaal.toString());
-
-                }
-                out.close();
-                int status=connection.getResponseCode();
-                if(status==HttpURLConnection.HTTP_OK){
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(),"utf-8"));
-                    String responseString ;
-                    StringBuilder sb= new StringBuilder();
-                    while ((responseString=reader.readLine())!=null){
-                        sb=sb.append(responseString);
-                        reader.close();
-                        if(sb.toString().equals("0")){
-                            return 0l;
-                        }else{
-                            return 1l;
-                        }
-                    }
-                }else {return 1l;}
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Long result) {
-
-            if(result==0){
-                Toast.makeText(context,"Tror det virket",Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(context,"Noe er galt",Toast.LENGTH_LONG).show();
-            }
-        }
-
-
-
-    }
 
 
 }

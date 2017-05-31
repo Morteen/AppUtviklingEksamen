@@ -141,14 +141,14 @@ public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
     ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
     while(cursor.moveToNext()){
         Turmaal maal= new Turmaal();
-        maal.setNavn(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Navn)));
-        maal.setType(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Type)));
-        maal.setHoyde(cursor.getInt(cursor.getColumnIndex(Turmaal.KOL_NAVN_Hoyde)));
-        maal.setBeskrivelse(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Beskrivelse)));
-        maal.setRegAnsvarlig(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_RegAnsvarlig)));
-        maal.setLengdegrad(cursor.getFloat(cursor.getColumnIndex(Turmaal.KOL_NAVN_Lengdegrad)));
-        maal.setBreddegrad(cursor.getFloat(cursor.getColumnIndex(Turmaal.KOL_NAVN_Breddegrad)));
-        maal.setBilde_URL(cursor.getString(cursor.getColumnIndex(Turmaal.KOL_NAVN_Bilde_URL)));
+        maal.setNavn(cursor.getString(cursor.getColumnIndex("NAVN")));
+        maal.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
+        maal.setHoyde(cursor.getInt(cursor.getColumnIndex("HOYDE")));
+        maal.setBeskrivelse(cursor.getString(cursor.getColumnIndex("BESKRIVELSE")));
+        maal.setRegAnsvarlig(cursor.getString(cursor.getColumnIndex("REGANSVARLIG")));
+        maal.setLengdegrad(cursor.getFloat(cursor.getColumnIndex("LENGDEGRAD")));
+        maal.setBreddegrad(cursor.getFloat(cursor.getColumnIndex( "BREDDEGRAD")));
+        maal.setBilde_URL(cursor.getString(cursor.getColumnIndex( "BILDEURL")));
 
         turmaalListe.add(maal);
     }
