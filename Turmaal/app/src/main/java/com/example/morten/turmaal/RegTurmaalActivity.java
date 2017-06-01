@@ -25,7 +25,7 @@ import java.util.Date;
 
 
 public class RegTurmaalActivity extends AppCompatActivity {
-    Button  kamera, visBilde;
+    Button  kamera, visBilde,lagre;
     static String bildeNavn;
 
     ImageView bildeView;
@@ -53,6 +53,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
 
         kamera = (Button) findViewById(R.id.kameraKnp);
+       lagre= (Button) findViewById(R.id.lagre);
         bildeView = (ImageView) findViewById(R.id.imageView);
         visBilde = (Button) findViewById(R.id.Visbilde);
 
@@ -94,6 +95,15 @@ public class RegTurmaalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 visBildeSkalert(mCurrentPhotoPath);
+
+
+            }
+        });
+       lagre.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.FROYO)
+            @Override
+            public void onClick(View v) {
+                galleryAddPic(mCurrentPhotoPath);
                 Intent opplysningerIntent = new Intent(RegTurmaalActivity.this,OpplysningerActivity.class);
                 startActivity(opplysningerIntent);
 

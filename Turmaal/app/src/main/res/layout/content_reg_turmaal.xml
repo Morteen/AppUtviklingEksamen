@@ -42,7 +42,7 @@
         android:layout_above="@+id/lagreTm"
         android:layout_alignParentStart="true" />
     <Button
-        android:id="@+id/lagreTm"
+        android:id="@+id/lagre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lagre tur mål"
