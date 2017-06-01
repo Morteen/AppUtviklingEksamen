@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Turmaal> tmListe;
     static Turmaal curTm;
     static String regAnsvarligNavn;
-    private boolean tilgang ;
+    private boolean tilgang;
 
     public static final String REGANSVARLIGINFO = "com.example.morten.turmaal";
     public static final String FIRST_USE_SETTING = "com.example.morten.turmaal";
@@ -55,12 +55,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tilgang=false;
+        tilgang = false;
 
 
         DatabaseOperasjoner dbOp = new DatabaseOperasjoner(MainActivity.this);
-
-
 
 
         if (isOnline()) {
@@ -86,21 +84,30 @@ public class MainActivity extends AppCompatActivity {
 
 
         //sjekker om brukeren er online
+        //og overfører SQLITE data hvis den er på nett
         if (isOnline()) {
 
             new JsonStartTask().execute();
-        }else{
+        } else {
             Toast.makeText(this, "Telefonene er ikke på nett", Toast.LENGTH_LONG).show();
         }
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent regTurmaalIntent = new Intent(MainActivity.this, RegTurmaalActivity.class);
-                startActivity(regTurmaalIntent);
+                if (tilgang) {
+                    Intent regTurmaalIntent = new Intent(MainActivity.this, RegTurmaalActivity.class);
+                    startActivity(regTurmaalIntent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Du må logge inn først", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
+
+
     }
 
     @Override
@@ -144,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                         if (!mNavn.getText().toString().isEmpty() || mPassword.getText().toString().isEmpty()) {
-                            regAnsvarligNavn = mNavn.getText().toString();
+                            regAnsvarligNavn = storForBokstav(mNavn.getText().toString());
                             editor.putString("regAnsvarligNavn", regAnsvarligNavn);
                             editor.apply();
                             editor.putString("Passord", mPassword.getText().toString());
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 avbryt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tilgang=false;
+                        tilgang = false;
                         dialog.dismiss();
                     }
                 });
@@ -190,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                             dialog.cancel();
                         } else {
                             Toast.makeText(MainActivity.this, "Passordet er feil", Toast.LENGTH_SHORT).show();
-                            tilgang=false;
+                            tilgang = false;
                             dialog.dismiss();
 
                         }
@@ -201,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 avbryt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tilgang=false;
+                        tilgang = false;
                         dialog.dismiss();
                     }
                 });
@@ -243,25 +250,23 @@ public class MainActivity extends AppCompatActivity {
 
                         if (mNavn.getText().toString().isEmpty() && mPassword.getText().toString().isEmpty()) {
                             Toast.makeText(MainActivity.this, "Du har ikke gjort noen endringer", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
 
-                        if (!mNavn.getText().toString().isEmpty()) {
-                            regAnsvarligNavn = mNavn.getText().toString();
-                            editor.putString("regAnsvarligNavn", regAnsvarligNavn);
-                            editor.apply();
-                        }
-                        if (!mPassword.getText().toString().isEmpty()) {
-                            editor.putString("Passord", mPassword.getText().toString());
-                            tilgang = true;
-                            editor.apply();
+                            if (!mNavn.getText().toString().isEmpty()) {
+                                regAnsvarligNavn = storForBokstav(mNavn.getText().toString());
+                                editor.putString("regAnsvarligNavn", regAnsvarligNavn);
+                                editor.apply();
+                            }
+                            if (!mPassword.getText().toString().isEmpty()) {
+                                editor.putString("Passord", mPassword.getText().toString());
+                                tilgang = true;
+                                editor.apply();
 
 
-                        }
+                            }
                             Toast.makeText(MainActivity.this, "Dine endringer er registrert og lagret", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
-
-
 
 
                     }
@@ -300,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                     final SharedPreferences.Editor editor = preferences.edit();
                     editor.clear();
                     editor.apply();
-                    tilgang=false;
+                    tilgang = false;
                     dialog.dismiss();
 
                 }
@@ -468,5 +473,11 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////////////////////////////////////////////////
 
+    public String storForBokstav(String orginal) {
+        if (orginal.isEmpty())
+            return orginal;
+        return orginal.substring(0, 1).toUpperCase() + orginal.substring(1).toLowerCase();
 
+
+    }
 }

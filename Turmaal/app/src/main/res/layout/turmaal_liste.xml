@@ -12,11 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Navn"
-       android:textColor="@color/colorPrimaryDark"
+       android:textColor="@color/colorCustom"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible"
         android:layout_marginTop="45dp"
-        android:layout_below="@+id/progressBar"
+
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
 
         android:text="Type"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorCustom"
         android:layout_marginBottom="94dp"
         android:layout_alignBottom="@+id/tvStartHoyde"
         android:layout_centerHorizontal="true" />
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Høyde"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorCustom"
 
 
         android:layout_marginTop="207dp"

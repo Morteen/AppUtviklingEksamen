@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,12 +43,6 @@ public class RegTurmaalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_turmaal);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-
-
 
 
         kamera = (Button) findViewById(R.id.kameraKnp);
@@ -94,7 +87,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.FROYO)
             @Override
             public void onClick(View v) {
-                visBildeSkalert(mCurrentPhotoPath);
+
 
 
             }
@@ -103,7 +96,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.FROYO)
             @Override
             public void onClick(View v) {
-                galleryAddPic(mCurrentPhotoPath);
+                //galleryAddPic(mCurrentPhotoPath);
                 Intent opplysningerIntent = new Intent(RegTurmaalActivity.this,OpplysningerActivity.class);
                 startActivity(opplysningerIntent);
 
@@ -180,12 +173,19 @@ public class RegTurmaalActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Ta_bilde_V2 && resultCode == RESULT_OK) {
             galleryAddPic(mCurrentPhotoPath);
-
+            visBildeSkalert(mCurrentPhotoPath);
            bildeNavn=mCurrentPhotoPath;
 
 
             new FileUpload(RegTurmaalActivity.this, bildeFil);
         }
+    }
+    public String storForBokstav(String orginal){
+        if(orginal.isEmpty())
+            return orginal;
+        return orginal.substring(0,1).toUpperCase()+orginal.substring(1).toLowerCase();
+
+
     }
 
 

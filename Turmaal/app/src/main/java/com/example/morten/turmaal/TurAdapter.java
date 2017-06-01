@@ -129,6 +129,11 @@ public class TurAdapter extends BaseAdapter {
         @Override
         protected Long doInBackground(String... params) {
             URLConnection connection;
+            if (!mImageString.substring(0,1).equals("h")){
+                mBitmap = BitmapFactory.decodeFile(mImageString);
+                return(0l);
+            }else{
+
             try {
                 URL imageUrl = new URL(mImageString);
 
@@ -144,7 +149,7 @@ public class TurAdapter extends BaseAdapter {
             } catch (IOException e) {
                 return (1l);
             }
-
+            }
 
         }
 
@@ -159,4 +164,6 @@ public class TurAdapter extends BaseAdapter {
 
 
     }
+
+
 }

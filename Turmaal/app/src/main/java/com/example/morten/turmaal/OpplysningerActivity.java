@@ -77,7 +77,7 @@ public class OpplysningerActivity extends AppCompatActivity {
                             maal.setHoyde(hoyde);
                             maal.setLengdegrad((float) lengdeGrad);
                             maal.setBreddegrad((float) breddeGrad);
-                            maal.setRegAnsvarlig(MainActivity.regAnsvarligNavn);
+                            maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
                             Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
                             List<Address> adressList = null;
                             try {
@@ -88,19 +88,20 @@ public class OpplysningerActivity extends AppCompatActivity {
 
                             if (RegTurmaalActivity.bildeNavn != null) {
                                 maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
+                                RegTurmaalActivity.bildeNavn = null;
                             }
                             if(mNavn.getText().toString().isEmpty()){
                             String start = adressList.get(0).getLocality() + " -";
                             start += adressList.get(0).getCountryName();
                             maal.setNavn(start);
                             }else{
-                                maal.setNavn(mNavn.getText().toString()+" -"+adressList.get(0).getCountryName());
+                                maal.setNavn(storForBokstav(mNavn.getText().toString())+" -"+adressList.get(0).getCountryName());
                             }
                             if(!mBeskrivelse.getText().toString().isEmpty()){
-                                maal.setBeskrivelse(mBeskrivelse.getText().toString());
+                                maal.setBeskrivelse(storForBokstav(mBeskrivelse.getText().toString()));
                             }
                             if(!mType.getText().toString().isEmpty()){
-                                maal.setType(mType.getText().toString());
+                                maal.setType(storForBokstav(mType.getText().toString()));
                             }
 
 
@@ -130,6 +131,13 @@ public class OpplysningerActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+    public String storForBokstav(String orginal){
+        if(orginal.isEmpty())
+            return orginal;
+        return orginal.substring(0,1).toUpperCase()+orginal.substring(1).toLowerCase();
 
 
     }
