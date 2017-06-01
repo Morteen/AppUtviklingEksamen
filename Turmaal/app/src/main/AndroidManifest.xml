@@ -12,10 +12,12 @@
     -->
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-featur android:name="android.hardware.camera" android:required="true" />
+    <uses-featur
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -56,6 +58,10 @@
         <activity
             android:name=".RegTurmaalActivity"
             android:label="@string/title_activity_reg_turmaal"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OpplysningerActivity"
+            android:label="@string/title_activity_opplysninger"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"/>
+
+    <EditText
+        android:id="@+id/eType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Type turmål" />
+
+    <EditText
+        android:id="@+id/eBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eType"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+      android:hint="@string/beskrivelse"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/regBeskivelse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lagre"
+        android:layout_below="@+id/eBeskrivelse"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="77dp" />
+
+    <Button
+        android:id="@+id/avbryt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Avbryt"
+        android:layout_alignTop="@+id/regBeskivelse"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="65dp" />
+
+
+</RelativeLayout>

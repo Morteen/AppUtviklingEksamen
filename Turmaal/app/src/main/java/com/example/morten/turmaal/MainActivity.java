@@ -58,18 +58,9 @@ public class MainActivity extends AppCompatActivity {
         tilgang=false;
 
 
-        Turmaal maal = new Turmaal();
-        maal.setNavn("Test");
-        maal.setType("Topp");
-        maal.setBeskrivelse("test");
-        maal.setRegAnsvarlig("test");
-        maal.setHoyde(10);
-        maal.setLengdegrad(9.3322444f);
-        maal.setBreddegrad(59.634343f);
-        maal.setBilde_URL("http//Test.no");
         DatabaseOperasjoner dbOp = new DatabaseOperasjoner(MainActivity.this);
 
-        dbOp.putInformation(dbOp, maal);
+
 
 
         if (isOnline()) {

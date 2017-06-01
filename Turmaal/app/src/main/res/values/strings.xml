@@ -11,4 +11,7 @@
     <string name="title_activity_reg_turmaal">RegTurmaalActivity</string>
     <string name="registrer_navn">Registrer navn</string>
     <string name="endre_opplysninger">Endre Opplysninger</string>
+    <string name="legg_til_type_turm_l_og_en_beskrivelse">Ta et bildet av stedet \n og del med andre</string>
+    <string name="beskrivelse">Beskrivelse</string>
+    <string name="title_activity_opplysninger">OpplysningerActivity</string>
 </resources>

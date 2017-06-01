@@ -8,38 +8,44 @@
     tools:context="com.example.morten.turmaal.RegTurmaalActivity"
     tools:showIn="@layout/activity_reg_turmaal"
     android:padding="10dp">
-
-    <Button
-        android:id="@+id/regKnp"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registrer turmål"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="29dp" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"/>
+
 
     <Button
         android:id="@+id/kameraKnp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kamera"
-        android:layout_below="@+id/regKnp"
+        android:layout_above="@+id/Visbilde"
         android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="350dp"
         android:layout_height="300dp"
-
-
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true" />
+        android:visibility="invisible"/>
 
     <Button
-        android:id="@+id/lagre"
-        android:layout_width="wrap_content"
+        android:id="@+id/Visbilde"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Visbilde"
+        android:layout_above="@+id/lagreTm"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/lagreTm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lagre tur mål"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Visbilde" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
