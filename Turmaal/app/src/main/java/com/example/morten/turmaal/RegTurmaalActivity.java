@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
     String bildeNavn;
     ImageView bildeView;
     static final int KAMERA_REQUEST = 1;
-    static final int BILDE_REQUEST= 2;
+    static final int BILDE_REQUEST = 2;
     LocationManager locationManager;
     String locationProvider = LocationManager.GPS_PROVIDER;
     public final static int MY_REQUEST_LOCATION = 1;
@@ -62,7 +61,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-      maal= new Turmaal();
+        maal = new Turmaal();
         maal.setRegAnsvarlig(MainActivity.regAnsvarligNavn);
 
 
@@ -94,10 +93,10 @@ public class RegTurmaalActivity extends AppCompatActivity {
                         myLocation = locationManager.getLastKnownLocation(locationProvider);
                         double lengdeGrad = myLocation.getLongitude();
                         double breddeGrad = myLocation.getLatitude();
-                       int hoyde = (int)myLocation.getAltitude();
+                        int hoyde = (int) myLocation.getAltitude();
                         maal.setHoyde(hoyde);
-                        maal.setLengdegrad((float)lengdeGrad);
-                        maal.setBreddegrad((float)breddeGrad);
+                        maal.setLengdegrad((float) lengdeGrad);
+                        maal.setBreddegrad((float) breddeGrad);
                         Geocoder geocoder = new Geocoder(RegTurmaalActivity.this);
                         List<Address> adressList = null;
                         try {
@@ -109,8 +108,8 @@ public class RegTurmaalActivity extends AppCompatActivity {
                         String start = "Start sted: " + adressList.get(0).getLocality() + " -";
                         start += adressList.get(0).getCountryName();
                         maal.setNavn(start);
-                       // Toast.makeText(getApplicationContext(),
-                               // "Lengdegrad:" + lengdeGrad + "\nBreddegrad:" + breddeGrad + "\nHøyde:" + hoyde + "\nAdresse:" + start, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(),
+                        // "Lengdegrad:" + lengdeGrad + "\nBreddegrad:" + breddeGrad + "\nHøyde:" + hoyde + "\nAdresse:" + start, Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -124,8 +123,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
         });
         if (!harKamera()) {
             kamera.setEnabled(false);
-            Toast.makeText(getApplicationContext(),
-                    "Har ikke kamera", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Telefonen har ikke kamera", Toast.LENGTH_LONG).show();
         }
         kamera.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -135,15 +133,15 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
                 File bildeMappe = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-               bildeNavn = getBildeNavn();
+                bildeNavn = getBildeNavn();
                 bildeFil = new File(bildeMappe, bildeNavn);
                 uri = Uri.fromFile(bildeFil);
                 maal.setBilde_URL(uri.toString());
-                Toast.makeText(getApplicationContext(),maal.getRegAnsvarlig()+"\n"+maal.getNavn()+"\n"+maal.getHoyde()+"\n"+maal.getBilde_URL()+"\n"+maal.getBreddegrad(), Toast.LENGTH_LONG).show();
-                Log.d("bildeadresse",uri.toString());
-                //Toast.makeText(getApplicationContext(), bildeFil.toString(), Toast.LENGTH_LONG).show();
-                kameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(kameraIntent, KAMERA_REQUEST);//
+                Log.d("bildeadresse", uri.toString());
+
+
+                kameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(kameraIntent, KAMERA_REQUEST);
 
             }
         });
@@ -154,42 +152,37 @@ public class RegTurmaalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
- String test="/DCIM/100ANDRO/DSC_0067.JPG";
-                String tempAdr=" /storage/emulated/0";
-                File downloadsFolder= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                                Uri file=Uri.fromFile(new File(downloadsFolder,test));
-                if(file.toString() != null && file.toString().length()>0)
-                {
+                String test = "/DCIM/100ANDRO/DSC_0067.JPG";
+                String tempAdr = " /storage/emulated/0";
+                File downloadsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                Uri file = Uri.fromFile(new File(downloadsFolder, test));
+                if (file.toString() != null && file.toString().length() > 0) {
                     //Toast.makeText(getApplicationContext(),file.toString(), Toast.LENGTH_LONG).show();
 
                     Picasso.with(RegTurmaalActivity.this).load(file).placeholder(R.drawable.common_google_signin_btn_icon_dark_normal).into(bildeView);
 
-          context=RegTurmaalActivity.this;
+                  /* context=RegTurmaalActivity.this;
                     DatabaseOperasjoner DB = new DatabaseOperasjoner(context);
                     DB.putInformation(DB,maal);
-                    Toast.makeText(getBaseContext(),"Registring suksessfull",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Registring suksessfull",Toast.LENGTH_LONG).show();*/
 
 
-                }else
-                {
+                } else {
                     Toast.makeText(RegTurmaalActivity.this, "Tom URI", Toast.LENGTH_SHORT).show();
                 }
 
 
-
-
-
-               Intent fotoFinnerIntent = new Intent(Intent.ACTION_PICK);
+                Intent fotoFinnerIntent = new Intent(Intent.ACTION_PICK);
                 //Android finner riktig mappe og fil adresse
-                File bildeMappe=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String mappeSti= bildeMappe.getPath();
-                   //String tempAdr=" file:///storage/emulated/0/Pictures/TurBilde2017_05_30.jpg";
-               // String tempAdr=" /storage/emulated/0/Pictures/TurBilde2017_05_30.jpg";
+                File bildeMappe = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String mappeSti = bildeMappe.getPath();
+                //String tempAdr=" file:///storage/emulated/0/Pictures/TurBilde2017_05_30.jpg";
+                // String tempAdr=" /storage/emulated/0/Pictures/TurBilde2017_05_30.jpg";
 
-                Uri data =Uri.parse(tempAdr);
-                fotoFinnerIntent.setDataAndType(uri,"image/*");
+                Uri data = Uri.parse(tempAdr);
+                fotoFinnerIntent.setDataAndType(uri, "image/*");
 
-                startActivityForResult(fotoFinnerIntent,BILDE_REQUEST);
+                startActivityForResult(fotoFinnerIntent, BILDE_REQUEST);
 
 
             }
@@ -217,26 +210,24 @@ public class RegTurmaalActivity extends AppCompatActivity {
             //bildeView.setImageBitmap(foto);
 
 
-        } else if(resultCode==RESULT_OK&&requestCode==BILDE_REQUEST){
-
+        } /*else if (resultCode == RESULT_OK && requestCode == BILDE_REQUEST) {
 
             Toast.makeText(getApplicationContext(),
-                   "Det virker så langt"+ resultCode + " " + requestCode, Toast.LENGTH_LONG).show();
-
-            Uri bildeUri= data.getData();
+                    "Det virker så langt" + resultCode + " " + requestCode, Toast.LENGTH_LONG).show();
+            Uri bildeUri = data.getData();
             //Deklarere en stream for å lese fra disken
             InputStream inputStream;
             try {
-                inputStream=getContentResolver().openInputStream(bildeUri);
+                inputStream = getContentResolver().openInputStream(bildeUri);
                 //Får et bilde fra strømmen
-               Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 bildeView.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
-                Toast.makeText(this,"Kan ikke åpne bildet",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Kan ikke åpne bildet", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-        }
+        }*/
 
 
     }

@@ -13,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +30,6 @@ public class TurAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<Turmaal> mineTuraal;
     LayoutInflater mInflater;
-
-
 
 
     public TurAdapter(Context mContext, ArrayList<Turmaal> mineTuraal) {
@@ -54,7 +56,7 @@ public class TurAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //ImageView bakgrundsbilde = new ImageView(mContext);
+        ImageView bakgrundsbilde = new ImageView(mContext);
 
 
         ViewHolder viewHolder;
@@ -72,7 +74,7 @@ public class TurAdapter extends BaseAdapter {
             viewHolder.tvStartType = (TextView) convertView.findViewById(R.id.tvStartType);
 
             viewHolder.tvStartHoyde = (TextView) convertView.findViewById(R.id.tvStartHoyde);
-            viewHolder.background=(RelativeLayout) convertView.findViewById(R.id.backgrund);
+            viewHolder.background = (RelativeLayout) convertView.findViewById(R.id.backgrund);
             //viewHolder.visURl=(TextView)convertView.findViewById(R.id.url) ;
 
             convertView.setTag(viewHolder);
@@ -81,26 +83,21 @@ public class TurAdapter extends BaseAdapter {
         }
 
 
-       Turmaal currentMaal = mineTuraal.get(position);
-
-
+        Turmaal currentMaal = mineTuraal.get(position);
 
 
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
-        viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde())+" meter over havet");
+        viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()) + " meter over havet");
 
-        Log.d("BildeURL",currentMaal.getBilde_URL());
-
-        //new DownloadImageTask((ImageView)bakgrundsbilde).execute("http://www.godtur.no/godtur/nyartikkel/multimedia/kvalitet4/9058.jpg");
+        Log.d("BildeURL", currentMaal.getBilde_URL());
 
 
-        //convertView.setBackground(bakgrundsbilde.getDrawable());
+        LoadImage lagBakgrunn = new LoadImage(bakgrundsbilde, currentMaal.getBilde_URL());
+
+        convertView.setBackground(bakgrundsbilde.getDrawable());
         return convertView;
     }
-
-
-
 
 
     ///Dette må tilpasses XML filen
@@ -113,36 +110,53 @@ public class TurAdapter extends BaseAdapter {
 
 
     }
-//TODO Fra ndroid Developer
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
+    //Fra læreboken
+    private class LoadImage extends AsyncTask<String, String, Long> {
+
+        ImageView mimageView;
+        String mImageString;
+        Bitmap mBitmap;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+
+        public LoadImage(ImageView mimageView, String mImageString) {
+            this.mimageView = mimageView;
+            this.mImageString = mImageString;
         }
 
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
+
+        @Override
+        protected Long doInBackground(String... params) {
+            URLConnection connection;
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
+                URL imageUrl = new URL(mImageString);
+
+                connection = imageUrl.openConnection();
+                connection.connect();
+                InputStream is = connection.getInputStream();
+                mBitmap = BitmapFactory.decodeStream(is);
+                return (0l);
+
+
+            } catch (MalformedURLException e) {
+                return (1l);
+            } catch (IOException e) {
+                return (1l);
             }
-            return mIcon11;
+
+
         }
 
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+        @Override
+        protected void onPostExecute(Long aLong) {
+            if (aLong == (0l))
+
+
+            mimageView.setImageBitmap(mBitmap);
+            super.onPostExecute(aLong);
         }
+
+
     }
-
-
-//https://peakbook.org/gfx/images/9/b3/dolati_20150317_55080829b39d2.jpg/dolati_20150317_55080829b39d2-1.jpg
-
-
-
-
 }

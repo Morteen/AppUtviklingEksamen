@@ -19,7 +19,7 @@ public class ValgtTurmaalFragment extends Fragment {
 
     ImageView ivIcon;
     TextView tvNavn,tvType,tvHoyde,tvRegAnsvarlig,tvBeskrivelse;
-    public ValgtTurmaalFragment() {
+        public ValgtTurmaalFragment() {
         // Required empty public constructor
     }
 
@@ -49,6 +49,7 @@ public class ValgtTurmaalFragment extends Fragment {
         tvHoyde.setText(Integer.toString(MainActivity.curTm.getHoyde()));
         tvRegAnsvarlig.setText(MainActivity.curTm.getRegAnsvarlig());
         tvBeskrivelse.setText(MainActivity.curTm.getBeskrivelse());
+
 
 
 
@@ -82,6 +83,11 @@ public class ValgtTurmaalFragment extends Fragment {
         }
 
         protected void onPostExecute(Bitmap result) {
+
+
+
+
+
             bmImage.setImageBitmap(result);
         }
     }

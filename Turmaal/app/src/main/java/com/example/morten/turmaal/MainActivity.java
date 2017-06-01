@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         if (isOnline()) {
 
             new JsonStartTask().execute();
+        }else{
+            Toast.makeText(this, "Telefonene er ikke på nett", Toast.LENGTH_LONG).show();
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -298,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
             ab.setTitle("Er du sikker");
 
 
-            //Legger til en positiv reaksjon knapp for å legge inn tekst i tekstviewet
+            //Legger til en positiv reaksjon knapp for å kunne slette opplysningene
             ab.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
