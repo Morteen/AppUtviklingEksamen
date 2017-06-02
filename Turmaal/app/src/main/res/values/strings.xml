@@ -13,6 +13,8 @@
     <string name="endre_opplysninger">Endre Opplysninger</string>
     <string name="legg_til_type_turm_l_og_en_beskrivelse">Ta et bildet av stedet \n og del med andre</string>
     <string name="beskrivelse">Beskrivelse</string>
-    <string name="title_activity_opplysninger">OpplysningerActivity</string>
+    <string name="title_activity_opplysninger">Legg til Opplysninger</string>
     <string name="turmaal_navn">Navn</string>
+    <string name="beskrivelse_turmaal">Beskrivelse</string>
+    <string name="sveip_til_plassering_p_kart">Sveip til plassering på kart</string>
 </resources>

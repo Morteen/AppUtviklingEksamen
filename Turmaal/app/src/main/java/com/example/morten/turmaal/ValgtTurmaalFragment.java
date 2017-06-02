@@ -47,11 +47,11 @@ public class ValgtTurmaalFragment extends Fragment {
         tvBeskrivelse=(TextView)view.findViewById(R.id.tvBeskrivelse) ;
 
         tvNavn.setText(MainActivity.curTm.getNavn());
-        tvType.setText(MainActivity.curTm.getType());
-        tvHoyde.setText(Integer.toString(MainActivity.curTm.getHoyde()));
-        tvRegAnsvarlig.setText(MainActivity.curTm.getRegAnsvarlig());
+        tvType.setText("Type:  "+MainActivity.curTm.getType());
+        tvHoyde.setText("Høyde:  "+Integer.toString(MainActivity.curTm.getHoyde())+ " meter");
+        tvRegAnsvarlig.setText("Registret av:  "+MainActivity.curTm.getRegAnsvarlig());
         tvBeskrivelse.setText(MainActivity.curTm.getBeskrivelse());
-        tAvstand.setText(Integer.toString(MainActivity.curTm.getAvstand()));
+        tAvstand.setText("Avstand:  "+Integer.toString(MainActivity.curTm.getAvstand()/1000)+" km");
 
 
 

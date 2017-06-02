@@ -13,82 +13,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="148dp"
+        android:layout_marginStart="50dp"
         android:paddingTop="20dp"
-        android:textAlignment="center"
-        android:text="@string/turmaal_navn"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Type"
-        android:layout_below="@+id/tvNavn"
-        android:layout_alignParentStart="true"
-         />
+        android:text="@string/turmaal_navn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
         android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_alignBaseline="@+id/textView5"
-        android:layout_alignStart="@+id/tvNavn"
-      />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Type"
+        android:layout_below="@+id/tvNavn"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="23dp"
-        android:layout_marginBottom="30dp"
-        android:text="Registret av" />
+         />
+
+
 
     <TextView
         android:id="@+id/tvRegAnsvarlig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_alignStart="@+id/tvNavn"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView7"
-        android:layout_marginTop="1dp"
-        android:text="Høyde" />
+        android:layout_below="@+id/tvType"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Registret av" />
+
+
 
     <TextView
         android:id="@+id/tHoyde"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView9"
-        android:layout_alignStart="@+id/tvNavn"
-        android:text="TextView" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvRegAnsvarlig"
+        android:layout_marginTop="1dp"
+        android:text="Høyde" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_below="@+id/textView9"
-        android:layout_marginTop="17dp"
-        android:text="Avstand" />
+
 
     <TextView
         android:id="@+id/tAvstand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvNavn"
-        android:layout_alignTop="@+id/textView11"
-        android:text="TextView" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tHoyde"
+        android:layout_marginTop="15dp"
+        android:text="Avstand" />
+
+
 
     <ImageView
         android:id="@+id/ivIcon"
@@ -96,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         app:srcCompat="@drawable/fjell"
-        android:layout_below="@+id/textView11"
+        android:layout_below="@+id/tAvstand"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -106,7 +81,7 @@
         android:layout_below="@+id/ivIcon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="Sveip til plasseing på kart"
+        android:text="@string/sveip_til_plassering_p_kart"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <TextView
@@ -116,6 +91,6 @@
         android:layout_below="@+id/textView13"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="TextView" />
+        android:text="@string/beskrivelse_turmaal" />
 </RelativeLayout>
 </ScrollView>
