@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bakgrunn2"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.morten.turmaal.OpplysningerActivity"
-    tools:showIn="@layout/activity_opplysninger">
+    tools:showIn="@layout/activity_opplysninger"
+ >
 
     <TextView
         android:id="@+id/textView2"
@@ -15,18 +17,21 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="Legg til opplysninger om stedet" />
+        android:text="Legg til opplysninger om stedet"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <EditText
         android:id="@+id/eType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-      android:hint="Type turmål"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp" />
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:hint="@string/type_turm_l2"
+        android:inputType="textPersonName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        />
 
     <EditText
         android:id="@+id/eBeskrivelse"
@@ -34,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:hint="@string/lag_en_beskrivelse_av_stedet"
         android:inputType="textMultiLine"
         android:layout_below="@+id/eNavn"
         android:layout_alignStart="@+id/eNavn" />
@@ -42,19 +48,21 @@
         android:id="@+id/eNavn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/eType"
-        android:layout_below="@+id/eType"
         android:layout_marginTop="17dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Navn på stedet" />
+        android:hint="@string/navn_p_stedet"
+        android:layout_below="@+id/eType"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_alignEnd="@+id/eType" />
 
     <Button
         android:id="@+id/lagreTm"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/opplysninger_lagre"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
+
         android:text="Lagre" />
 </RelativeLayout>

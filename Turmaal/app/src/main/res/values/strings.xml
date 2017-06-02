@@ -21,4 +21,7 @@
     <string name="type_turm_l">Type turmål</string>
     <string name="avbryt">Avbryt</string>
     <string name="type_og_beskrivelse_lagre">Lagre</string>
+    <string name="lag_en_beskrivelse_av_stedet">Lag en beskrivelse av stedet</string>
+    <string name="type_turm_l2">Type turmål</string>
+    <string name="navn_p_stedet">Navn på stedet</string>
 </resources>

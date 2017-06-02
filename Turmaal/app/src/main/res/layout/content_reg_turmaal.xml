@@ -7,7 +7,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.morten.turmaal.RegTurmaalActivity"
     tools:showIn="@layout/activity_reg_turmaal"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/bakgrunn2">
 
     <TextView
         android:id="@+id/textView"
