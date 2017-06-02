@@ -196,7 +196,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
                 List<Address> adressList = null;
 
-                
+
                 try {
                     adressList = geocoder.getFromLocation(breddeGrad, lengdeGrad, 1);
                 } catch (IOException e) {

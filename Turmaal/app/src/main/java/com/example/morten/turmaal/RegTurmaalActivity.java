@@ -147,13 +147,13 @@ public class RegTurmaalActivity extends AppCompatActivity {
         BitmapFactory.decodeFile(photoPath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
-        // Beregn hvor mye bildet må nedskaleres for å passe i ImageViewet
+
         int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
         // Les bildefilen inn i et Bitmap objekt med valgt skalering
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
-        //Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
+
         Bitmap snudd= snuBilde(bitmap, photoPath);
         bildeView.setImageBitmap( snudd);
         // bildeView.setVisibility(View.VISIBLE);
@@ -177,9 +177,8 @@ public class RegTurmaalActivity extends AppCompatActivity {
             galleryAddPic(mCurrentPhotoPath);
             visBildeSkalert(mCurrentPhotoPath);
 
-
             bildeNavn=mCurrentPhotoPath;
-            new FileUpload(RegTurmaalActivity.this,  new File(mCurrentPhotoPath));
+
         }
     }
     public String storForBokstav(String orginal){
