@@ -14,4 +14,5 @@
     <string name="legg_til_type_turm_l_og_en_beskrivelse">Ta et bildet av stedet \n og del med andre</string>
     <string name="beskrivelse">Beskrivelse</string>
     <string name="title_activity_opplysninger">OpplysningerActivity</string>
+    <string name="turmaal_navn">Navn</string>
 </resources>

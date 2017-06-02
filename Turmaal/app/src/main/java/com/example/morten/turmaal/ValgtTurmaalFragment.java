@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class ValgtTurmaalFragment extends Fragment {
 
     ImageView ivIcon;
-    TextView tvNavn,tvType,tvHoyde,tvRegAnsvarlig,tvBeskrivelse;
+    TextView tvNavn,tvType,tvHoyde,tvRegAnsvarlig,tvBeskrivelse,tAvstand;
         public ValgtTurmaalFragment() {
         // Required empty public constructor
     }
@@ -35,12 +35,14 @@ public class ValgtTurmaalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view = inflater.inflate(R.layout.fragment_valgt_turmaal, container, false);
+       //View view = inflater.inflate(R.layout.fragment_valgt_turmaal, container, false);
+        View view = inflater.inflate(R.layout.maalrad, container, false);
 
         ivIcon=(ImageView)view.findViewById(R.id.ivIcon) ;
         tvNavn=(TextView) view.findViewById(R.id.tvNavn);
         tvType=(TextView)view.findViewById(R.id.tvType);
-        tvHoyde=(TextView)view.findViewById(R.id.tvHoyde);
+        tvHoyde=(TextView)view.findViewById(R.id.tHoyde);
+        tAvstand=(TextView)view.findViewById(R.id.tAvstand);
         tvRegAnsvarlig=(TextView)view.findViewById(R.id.tvRegAnsvarlig) ;
         tvBeskrivelse=(TextView)view.findViewById(R.id.tvBeskrivelse) ;
 
@@ -49,6 +51,7 @@ public class ValgtTurmaalFragment extends Fragment {
         tvHoyde.setText(Integer.toString(MainActivity.curTm.getHoyde()));
         tvRegAnsvarlig.setText(MainActivity.curTm.getRegAnsvarlig());
         tvBeskrivelse.setText(MainActivity.curTm.getBeskrivelse());
+        tAvstand.setText(Integer.toString(MainActivity.curTm.getAvstand()));
 
 
 
