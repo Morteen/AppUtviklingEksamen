@@ -1,16 +1,13 @@
 package com.example.morten.turmaal;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +27,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
         GoogleApiClient.OnConnectionFailedListener{
     Button lagreTm;
     EditText mType,mBeskrivelse,mNavn;
-    public final static int MY_REQUEST_LOCATION = 1;
+    public final static int REQUEST_LOCATION = 1;
 
     Turmaal maal;
     GoogleApiClient mGoogleApiClient=null;
@@ -68,69 +66,36 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
 
 
-                Toast.makeText(getApplicationContext(),
-                        "Det er liv i knappen", Toast.LENGTH_LONG).show();
                 /////////////////////////
-                // Bruk LocationManager for å finne siste kjente posisjon
 
+                if (RegTurmaalActivity.bildeNavn != null) {
+                    maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
+                    RegTurmaalActivity.bildeNavn = null;
+                }
+                if(!mNavn.getText().toString().isEmpty()){
+                    maal.setNavn(storForBokstav(mNavn.getText().toString()));
+                }
+                if(!mBeskrivelse.getText().toString().isEmpty()){
+                    maal.setBeskrivelse(storForBokstav(mBeskrivelse.getText().toString()));
+                }
+                if(!mType.getText().toString().isEmpty()){
+                    maal.setType(storForBokstav(mType.getText().toString()));
+                }
+                if(RegTurmaalActivity.bildeNavn!=null){
+                    maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
+                }
 
                         // Hent siste kjente posisjon
-
-                        double lengdeGrad = minPosisjon.getLongitude();
-                        double breddeGrad = minPosisjon.getLatitude();
-                        int hoyde = (int)minPosisjon.getAltitude();
-
-
-                        if (MainActivity.regAnsvarligNavn != null) {
-                            maal.setHoyde(hoyde);
-                            maal.setLengdegrad((float) lengdeGrad);
-                            maal.setBreddegrad((float) breddeGrad);
-                            maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
-                            Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
-                            List<Address> adressList = null;
-                            try {
-                                adressList = geocoder.getFromLocation(breddeGrad, lengdeGrad, 1);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            if (RegTurmaalActivity.bildeNavn != null) {
-                                maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
-                                RegTurmaalActivity.bildeNavn = null;
-                            }
-                            if(mNavn.getText().toString().isEmpty()){
-                            String start = adressList.get(0).getLocality() + " -";
-                            start += adressList.get(0).getCountryName();
-                            maal.setNavn(start);
-                            }else{
-                                maal.setNavn(storForBokstav(mNavn.getText().toString())+" -"+adressList.get(0).getCountryName());
-                            }
-                            if(!mBeskrivelse.getText().toString().isEmpty()){
-                                maal.setBeskrivelse(storForBokstav(mBeskrivelse.getText().toString()));
-                            }
-                            if(!mType.getText().toString().isEmpty()){
-                                maal.setType(storForBokstav(mType.getText().toString()));
-                            }
-
-
-
-
-
 
 
                             ///Lagrer opplysningene i SQLITE basen
                             DatabaseOperasjoner dbOp = new DatabaseOperasjoner(OpplysningerActivity.this);
                             dbOp.putInformation(dbOp, maal);
 
-                        }
+
 
                         Intent tilBakeTilMain = new Intent(OpplysningerActivity.this,MainActivity.class);
                         startActivity(tilBakeTilMain);
-
-
-
-
-
 
                 ///////////////////////
 
@@ -154,20 +119,17 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        // Denne fungerer også før API 23 med AppCompatActivity:
+
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        // Denne fungerer bare fra og med  API 23 med Activity:
-        //int permissionCheck = this.getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName());
+
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            //** Spør bruker om å gi appen tillatelsen ACCESS_FINE_LOCATION
-            // Denne fungerer også før API 23 med AppCompatActivity:
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
-            // Denne fungerer bare fra og med  API 23 med Activity:
-            //this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
         } else {
-            // OK: Appen har tillatelsen ACCESS_FINE_LOCATION. Finn siste posisjon
+
             Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            this.visPosisjon(lastLocation);
+            this.visMinPos(lastLocation);
         }
     }
 
@@ -190,11 +152,12 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
     // Callbackmetode som kalles etter at bruker har svart på spørsmål om rettigheter
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
+
+        if (requestCode==REQUEST_LOCATION) {
             if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 try {
                     minPosisjon = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                    this.visPosisjon(minPosisjon);
+                    this.visMinPos(minPosisjon);
                 }
                 catch (SecurityException e) {
                     e.printStackTrace();
@@ -215,5 +178,44 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getApplicationContext(), "Får ikke kontakt med Google Play Services", Toast.LENGTH_LONG).show();
+    }
+    private void visMinPos(Location posisjon) {
+        if (posisjon != null) {
+            double lengdeGrad = posisjon.getLongitude();
+            double breddeGrad = posisjon.getLatitude();
+           double hoyde =  posisjon.getAltitude();
+
+            Toast.makeText(getApplicationContext(), hoyde+" Høyde ", Toast.LENGTH_LONG).show();
+
+            if (MainActivity.regAnsvarligNavn != null) {
+                maal.setHoyde((int)hoyde);
+                maal.setLengdegrad((float) lengdeGrad);
+                maal.setBreddegrad((float) breddeGrad);
+                maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
+                Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
+                List<Address> adressList = null;
+                try {
+                    adressList = geocoder.getFromLocation(breddeGrad, lengdeGrad, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String start=null;
+              if(adressList!=null){
+                 start = adressList.get(0).getLocality() + " -";
+                start += adressList.get(0).getCountryName();
+                  Toast.makeText(getApplicationContext(), hoyde+" Høyde \n"+lengdeGrad+" LengdeG \n "+"Bredd"+ breddeGrad+" \n Adresse"+adressList.get(0).getCountryName()
+                          , Toast.LENGTH_LONG).show();
+                  maal.setNavn(start);
+              }
+
+
+
+
+            }
+
+            lengdeGrad=0.0;
+            breddeGrad=0.0;
+
+            }
     }
 }

@@ -178,8 +178,8 @@ public class RegTurmaalActivity extends AppCompatActivity {
             visBildeSkalert(mCurrentPhotoPath);
 
 
-
-            //new FileUpload(RegTurmaalActivity.this, bildeFil);
+            bildeNavn=mCurrentPhotoPath;
+            new FileUpload(RegTurmaalActivity.this,  new File(mCurrentPhotoPath));
         }
     }
     public String storForBokstav(String orginal){
