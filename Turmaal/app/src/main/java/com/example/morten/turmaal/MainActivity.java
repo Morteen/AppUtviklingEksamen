@@ -1,11 +1,16 @@
 package com.example.morten.turmaal;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -13,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -178,13 +185,16 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 tekst.setText("Hei legg inn passord");
-                mNavn.setEnabled(false);
                 regAnsvarligNavn = preferences.getString("regAnsvarligNavn", "");
+                mNavn.setHint(regAnsvarligNavn);
+                mNavn.setEnabled(false);
+
 
 
                 endre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
 
                         if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
 
@@ -328,6 +338,8 @@ public class MainActivity extends AppCompatActivity {
     class JsonStartTask extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
+        public final static int MY_REQUEST_LOCATION = 1;
+
 
         String turData = null;
 
@@ -417,15 +429,43 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
+
+            final LocationManager locationManager;
+            locationManager = (LocationManager)MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+            final String locationProvider = LocationManager.GPS_PROVIDER;
+            Location myLocation = null;
+
+
             if (result != null) {
 
                 progressDialog.cancel();
 
 
+                if (locationManager.isProviderEnabled(locationProvider)) {
+
+
+                    int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+
+                    //int permissionCheck = getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName());
+                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                        //** Hvis tillatelse ikke er gitt må programmet spørre brukeren
+                        // Denne fungerer også før API 23 med AppCompatActivity:
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
+
+                    } else {
+                        // Hent siste kjente posisjon
+                        myLocation = locationManager.getLastKnownLocation(locationProvider);
+                    }
+                }
+
+
                 try {
 
                     startListView = (ListView) findViewById(R.id.startList);
-                    tmListe = Turmaal.lagTurListe(result);
+                    tmListe=Turmaal.lagTurListe(result);
+                    if(myLocation!=null){
+                     Turmaal.sorterListe(tmListe,myLocation);
+                    }
                     TurAdapter adapter = new TurAdapter(getApplicationContext(), tmListe);
                     startListView.setAdapter(adapter);
                     startListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -41,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Legger til en markør og flytter kamera til valgte lokasjon
         LatLng valgteTM = new LatLng(MainActivity.curTm.getBreddegrad(), MainActivity.curTm.getLengdegrad());
-        mMap.addMarker(new MarkerOptions().position(valgteTM).title("Tull og tøys"));
+        mMap.addMarker(new MarkerOptions().position(valgteTM).title(MainActivity.curTm.getNavn()));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(valgteTM));
     }
 }

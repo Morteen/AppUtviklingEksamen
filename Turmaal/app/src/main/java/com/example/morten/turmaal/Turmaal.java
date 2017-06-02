@@ -1,12 +1,15 @@
 package com.example.morten.turmaal;
 
 import android.database.Cursor;
+import android.location.Location;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by morten on 29.05.2017.
@@ -25,6 +28,8 @@ public class Turmaal {
     private int hoyde;
     private String regAnsvarlig;
     private String bilde_URL;
+
+    public int avstand;
 
 
     public Turmaal() {
@@ -94,6 +99,20 @@ public class Turmaal {
         this.bilde_URL = bilde_URL;
     }
 
+    public void setAvstand(Turmaal m, Location l) {
+    Location mLoc = new Location("mLoc");
+        mLoc.setLatitude(m.getBreddegrad());
+        mLoc.setLongitude(m.getLengdegrad());
+
+        avstand=(int)l.distanceTo(mLoc);
+
+
+    }
+
+    public int getAvstand() {
+        return avstand;
+    }
+
     static final String TABELL_NAVN = "Turmaal";
     static final String KOL_NAVN_Navn = "Navn";
     static final String KOL_NAVN_Hoyde = "Hoyde";
@@ -136,7 +155,7 @@ public class Turmaal {
         }
         return turmaalListe;
     }
-
+//Lager en liste med turmål fra data i SQLitebasen
 public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
     ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
     while(cursor.moveToNext()){
@@ -176,6 +195,21 @@ public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
         }
         return jsonTurmaal;
     }
+//Metode for å sortere listen etter avstand fra der brukeren er
+   public static void sorterListe(ArrayList<Turmaal> list,Location l) {
+        for(int i=0;i<list.size();i++){
+            list.get(i).setAvstand(list.get(i),l);
+        }
+        Collections.sort(list, new Comparator<Turmaal>() {
+            public int compare(Turmaal mVal1, Turmaal mVal2) {
+                // For å prøve å unngå NullPointerException
+               Long tm1 = new Long(mVal1.getAvstand());
+                Long tm2 = new Long(mVal2.getAvstand());
+                return tm1.compareTo(tm2);
+            }
+        });
+    }
+
 
 
 

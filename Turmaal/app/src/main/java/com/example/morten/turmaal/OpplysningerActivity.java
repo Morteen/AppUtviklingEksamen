@@ -126,6 +126,7 @@ public class OpplysningerActivity extends AppCompatActivity {
                             "Aktiver " + locationProvider + " under Location i Settings", Toast.LENGTH_LONG).show();
                 }
 
+
                 ///////////////////////
 
 
