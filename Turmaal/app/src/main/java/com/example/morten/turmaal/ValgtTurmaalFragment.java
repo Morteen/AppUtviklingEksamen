@@ -35,7 +35,6 @@ public class ValgtTurmaalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       //View view = inflater.inflate(R.layout.fragment_valgt_turmaal, container, false);
         View view = inflater.inflate(R.layout.maalrad, container, false);
 
         ivIcon=(ImageView)view.findViewById(R.id.ivIcon) ;
