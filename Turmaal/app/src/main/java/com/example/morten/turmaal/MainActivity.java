@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         if (isOnline()) {
             if (DatabaseOperasjoner.doesDatabaseExist(MainActivity.this, "TUR.DB")) {
 
-                Toast.makeText(this, "SQLI basen ER opprettet!!", Toast.LENGTH_LONG).show();
+
             } else {
                 Toast.makeText(this, "SQLI basen er ikke opprettet", Toast.LENGTH_LONG).show();
             }

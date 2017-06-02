@@ -7,7 +7,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +27,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     Button lagreTm;
     EditText mType,mBeskrivelse,mNavn;
     public final static int REQUEST_LOCATION = 1;
+    double hoyde;
 
     Turmaal maal;
     GoogleApiClient mGoogleApiClient=null;
@@ -158,6 +158,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 try {
                     minPosisjon = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                     this.visMinPos(minPosisjon);
+
                 }
                 catch (SecurityException e) {
                     e.printStackTrace();
@@ -176,14 +177,14 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed( ConnectionResult connectionResult) {
         Toast.makeText(getApplicationContext(), "Får ikke kontakt med Google Play Services", Toast.LENGTH_LONG).show();
     }
     private void visMinPos(Location posisjon) {
         if (posisjon != null) {
             double lengdeGrad = posisjon.getLongitude();
             double breddeGrad = posisjon.getLatitude();
-           double hoyde =  posisjon.getAltitude();
+            hoyde = posisjon.getAltitude();
 
             Toast.makeText(getApplicationContext(), hoyde+" Høyde ", Toast.LENGTH_LONG).show();
 
@@ -194,6 +195,8 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
                 Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
                 List<Address> adressList = null;
+
+                
                 try {
                     adressList = geocoder.getFromLocation(breddeGrad, lengdeGrad, 1);
                 } catch (IOException e) {
