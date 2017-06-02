@@ -9,6 +9,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,14 +19,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.io.IOException;
 import java.util.List;
 
-public class OpplysningerActivity extends AppCompatActivity {
+public class OpplysningerActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
     Button lagreTm;
     EditText mType,mBeskrivelse,mNavn;
     public final static int MY_REQUEST_LOCATION = 1;
+
     Turmaal maal;
+    GoogleApiClient mGoogleApiClient=null;
+    private Location minPosisjon = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +41,21 @@ public class OpplysningerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opplysninger);
 
 
-        maal = new Turmaal();
-        final LocationManager locationManager;
-        locationManager = (LocationManager) OpplysningerActivity.this.getSystemService(Context.LOCATION_SERVICE);
+        // Create an instance of GoogleAPIClient.
 
-        final String locationProvider = LocationManager.GPS_PROVIDER;
+
+        if (mGoogleApiClient == null) {
+            GoogleApiClient.Builder apiBuilder = new GoogleApiClient.Builder(this);
+            apiBuilder.addConnectionCallbacks(this);        /* ConnectionCallbacks-objekt */
+            apiBuilder.addOnConnectionFailedListener(this); /* OnConnectionFailedListener-objekt */
+            apiBuilder.addApi(LocationServices.API);        /* Velg Play Service API */
+            mGoogleApiClient = apiBuilder.build();
+        }
+
+
+
+        maal = new Turmaal();
+
 
         mNavn=(EditText)findViewById(R.id.eNavn);
         mBeskrivelse=(EditText)findViewById(R.id.eBeskrivelse);
@@ -47,30 +66,19 @@ public class OpplysningerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Location myLocation = null;
+
 
                 Toast.makeText(getApplicationContext(),
                         "Det er liv i knappen", Toast.LENGTH_LONG).show();
                 /////////////////////////
                 // Bruk LocationManager for å finne siste kjente posisjon
 
-                if (locationManager.isProviderEnabled(locationProvider)) {
 
-
-                    int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-
-                    //int permissionCheck = getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName());
-                    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                        //** Hvis tillatelse ikke er gitt må programmet spørre brukeren
-                        // Denne fungerer også før API 23 med AppCompatActivity:
-                        ActivityCompat.requestPermissions(OpplysningerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
-
-                    } else {
                         // Hent siste kjente posisjon
-                        myLocation = locationManager.getLastKnownLocation(locationProvider);
-                        double lengdeGrad = myLocation.getLongitude();
-                        double breddeGrad = myLocation.getLatitude();
-                        int hoyde = (int) myLocation.getAltitude();
+
+                        double lengdeGrad = minPosisjon.getLongitude();
+                        double breddeGrad = minPosisjon.getLatitude();
+                        int hoyde = (int)minPosisjon.getAltitude();
 
 
                         if (MainActivity.regAnsvarligNavn != null) {
@@ -120,11 +128,8 @@ public class OpplysningerActivity extends AppCompatActivity {
                         startActivity(tilBakeTilMain);
 
 
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Aktiver " + locationProvider + " under Location i Settings", Toast.LENGTH_LONG).show();
-                }
+
+
 
 
                 ///////////////////////
@@ -135,6 +140,46 @@ public class OpplysningerActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Connect the ApiClient to Google Services
+        mGoogleApiClient.connect();
+    }
+
+
+    // Implementasjon av metode fra interface GoogleApiClient.ConnectionCallbacks
+    // Kalles når Api-klienten har fått kontakt
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        // Denne fungerer også før API 23 med AppCompatActivity:
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        // Denne fungerer bare fra og med  API 23 med Activity:
+        //int permissionCheck = this.getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName());
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            //** Spør bruker om å gi appen tillatelsen ACCESS_FINE_LOCATION
+            // Denne fungerer også før API 23 med AppCompatActivity:
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_REQUEST_LOCATION);
+            // Denne fungerer bare fra og med  API 23 med Activity:
+            //this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            // OK: Appen har tillatelsen ACCESS_FINE_LOCATION. Finn siste posisjon
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            this.visPosisjon(lastLocation);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     public String storForBokstav(String orginal){
         if(orginal.isEmpty())
             return orginal;
@@ -143,4 +188,32 @@ public class OpplysningerActivity extends AppCompatActivity {
 
     }
 
+    // Callbackmetode som kalles etter at bruker har svart på spørsmål om rettigheter
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                try {
+                    minPosisjon = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    this.visPosisjon(minPosisjon);
+                }
+                catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Permission was denied or request was cancelled
+                Toast.makeText(getApplicationContext(),
+                        "Kan ikke vise posisjon uten tillatelse", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getApplicationContext(), "Får ikke kontakt med Google Play Services", Toast.LENGTH_LONG).show();
+    }
 }

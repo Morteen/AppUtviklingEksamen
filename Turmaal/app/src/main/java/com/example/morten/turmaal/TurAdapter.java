@@ -13,11 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 /**
@@ -93,7 +89,7 @@ public class TurAdapter extends BaseAdapter {
         Log.d("BildeURL", currentMaal.getBilde_URL());
 
 
-        LoadImage lagBakgrunn = new LoadImage(bakgrundsbilde, currentMaal.getBilde_URL());
+        new DownloadImageTask(bakgrundsbilde).execute("http://static.panoramio.com/photos/large/91778790.jpg");
 
         convertView.setBackground(bakgrundsbilde.getDrawable());
         return convertView;
@@ -112,58 +108,36 @@ public class TurAdapter extends BaseAdapter {
     }
 
     //Fra læreboken
-    private class LoadImage extends AsyncTask<String, String, Long> {
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
-        ImageView mimageView;
-        String mImageString;
-        Bitmap mBitmap;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-
-
-        public LoadImage(ImageView mimageView, String mImageString) {
-            this.mimageView = mimageView;
-            this.mImageString = mImageString;
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
         }
 
-
-        @Override
-        protected Long doInBackground(String... params) {
-            URLConnection connection;
-            if (!mImageString.substring(0,1).equals("h")){
-                mBitmap = BitmapFactory.decodeFile(mImageString);
-                return(0l);
-            }else{
-
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
             try {
-                URL imageUrl = new URL(mImageString);
-
-                connection = imageUrl.openConnection();
-                connection.connect();
-                InputStream is = connection.getInputStream();
-                mBitmap = BitmapFactory.decodeStream(is);
-                return (0l);
-
-
-            } catch (MalformedURLException e) {
-                return (1l);
-            } catch (IOException e) {
-                return (1l);
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-            }
-
+            return mIcon11;
         }
 
-        @Override
-        protected void onPostExecute(Long aLong) {
-            if (aLong == (0l))
+        protected void onPostExecute(Bitmap result) {
 
 
-            mimageView.setImageBitmap(mBitmap);
-            super.onPostExecute(aLong);
+
+
+
+            bmImage.setImageBitmap(result);
         }
-
-
     }
+
 
 
 }
