@@ -19,5 +19,18 @@
         android:orderInCategory="100"
         android:title="Slett "
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_Legg_til"
+        android:orderInCategory="100"
+        android:title="Add "
+        android:icon="@drawable/ic_plus_one_black_24dp"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_LogIn"
+        android:orderInCategory="100"
+        android:title="Add "
+       android:icon="@drawable/ic_lock_open_black_24dp"
+        app:showAsAction="always" />
+
 
 </menu>

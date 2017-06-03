@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="10dp"
-    android:id="@+id/backgrund"
-    >
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+
 
 
     <TextView
@@ -27,9 +27,9 @@
 
         android:text="Type"
         android:textColor="@color/colorCustom"
-        android:layout_marginBottom="94dp"
-        android:layout_alignBottom="@+id/tvStartHoyde"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/tvStartNavn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp" />
 
     <TextView
         android:id="@+id/tvStartHoyde"
@@ -37,15 +37,43 @@
         android:layout_height="wrap_content"
         android:text="Høyde"
         android:textColor="@color/colorCustom"
-
-
-        android:layout_marginTop="207dp"
-        android:layout_below="@+id/tvStartNavn"
+        android:layout_marginTop="51dp"
+        android:layout_below="@+id/tvStartType"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tvStartType"
+        android:layout_marginStart="34dp"
+        android:text="Avstand" />
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvStartHoyde"
+        android:layout_alignStart="@+id/textView4"
+        android:text="Høyde" />
 
+    <TextView
+        android:id="@+id/tAvstand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvStartHoyde"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:text="Avstand" />
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tAvstand"
+        android:layout_alignStart="@+id/textView8"
+        android:text="Avstand" />
 
 
 </RelativeLayout>
