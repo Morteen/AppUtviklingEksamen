@@ -132,6 +132,74 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //final Dialog dialog = new Dialog(MainActivity.this);
         //noinspection SimplifiableIfStatement
+
+        if (id == R.id.action_Legg_til) {
+            if (tilgang) {
+                Intent regTurmaalIntent = new Intent(MainActivity.this, RegTurmaalActivity.class);
+                startActivity(regTurmaalIntent);
+            } else {
+                Toast.makeText(MainActivity.this, "Du må logge inn først", Toast.LENGTH_LONG).show();
+            }
+
+        }
+        if (id == R.id.action_LogIn) {
+
+            final Dialog dialog = new Dialog(MainActivity.this);
+
+            dialog.setContentView(R.layout.layout_dialogbox);
+            final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
+            final SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(FIRST_USE_SETTING, false);
+
+
+            final EditText mNavn = (EditText) dialog.findViewById(R.id.editNavn);
+            final EditText mPassword = (EditText) dialog.findViewById(R.id.editPass);
+            Button endre = (Button) dialog.findViewById(R.id.login_btn);
+            Button avbryt = (Button) dialog.findViewById(R.id.avslutt_btn);
+            TextView tekst = (TextView) dialog.findViewById(R.id.dialogBoxTekst);
+
+            tekst.setText("Hei legg inn passord");
+            regAnsvarligNavn = preferences.getString("regAnsvarligNavn", "");
+            mNavn.setHint(regAnsvarligNavn);
+            mNavn.setEnabled(false);
+
+
+            endre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
+
+
+                        Toast.makeText(MainActivity.this, preferences.getString("Passord", "") + "  " + mPassword.getText().toString(), Toast.LENGTH_SHORT).show();
+                        tilgang = true;
+
+
+                        Toast.makeText(MainActivity.this, "Du kan gå videre", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Passordet er feil", Toast.LENGTH_SHORT).show();
+                        tilgang = false;
+                        dialog.dismiss();
+
+                    }
+
+                }
+
+            });
+            avbryt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tilgang = false;
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+        }
+
+
         if (id == R.id.action_RegNavn) {
 
             final Dialog dialog = new Dialog(MainActivity.this);
@@ -178,54 +246,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         tilgang = false;
-                        dialog.dismiss();
+                        dialog.cancel();
                     }
                 });
-
+                dialog.show();
 
             } else {
-                tekst.setText("Hei legg inn passord");
-                regAnsvarligNavn = preferences.getString("regAnsvarligNavn", "");
-                mNavn.setHint(regAnsvarligNavn);
-                mNavn.setEnabled(false);
 
 
-                endre.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
-
-
-                            Toast.makeText(MainActivity.this, preferences.getString("Passord", "") + "  " + mPassword.getText().toString(), Toast.LENGTH_SHORT).show();
-                            tilgang = true;
-
-
-                            Toast.makeText(MainActivity.this, "Du kan gå videre", Toast.LENGTH_SHORT).show();
-                            dialog.cancel();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Passordet er feil", Toast.LENGTH_SHORT).show();
-                            tilgang = false;
-                            dialog.dismiss();
-
-                        }
-
-                    }
-
-                });
-                avbryt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tilgang = false;
-                        dialog.dismiss();
-                    }
-                });
-
+                Toast.makeText(MainActivity.this, "Bruk login knappen", Toast.LENGTH_SHORT).show();
 
             }
-
-            dialog.show();
 
 
             return true;
@@ -517,6 +548,22 @@ public class MainActivity extends AppCompatActivity {
             return orginal;
         return orginal.substring(0, 1).toUpperCase() + orginal.substring(1).toLowerCase();
 
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("RegAnsv",regAnsvarligNavn);
+        outState.putBoolean("Tilgang",tilgang);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        regAnsvarligNavn=savedInstanceState.getString("RegAnsv");
+        tilgang=savedInstanceState.getBoolean("Tilgang");
 
     }
 }
