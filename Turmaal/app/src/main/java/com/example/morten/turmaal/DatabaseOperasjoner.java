@@ -107,7 +107,7 @@ public class DatabaseOperasjoner extends SQLiteOpenHelper {
         };
         Cursor c = SQ.query(TABELL_NAVN, culoums, null, null, null, null, null);//null verdien er forskjellig sorteringer having orderby osv
 
-        // looping through all rows and adding to list
+        // går gjennom listen og legger til objekter
         if (c.moveToFirst()) {
             do {
                 Turmaal t = new Turmaal();

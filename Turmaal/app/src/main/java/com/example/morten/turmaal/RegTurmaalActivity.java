@@ -1,5 +1,6 @@
 package com.example.morten.turmaal;
-
+/*Etter mye problemer endte jeg opp med å bruke det jeg lagde under forelesningen om kamera
+* */
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,7 +38,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
     private static final String FOTO_MAPPE = "MineBilder"; // Katalognavn for bildene tatt med denne appen
     private static final int Ta_bilde_V2 = 2;
 
-    Bitmap testFoto;
+
     File bildeFil;
     Uri uri;
     Context context;

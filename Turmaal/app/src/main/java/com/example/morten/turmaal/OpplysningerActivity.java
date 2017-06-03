@@ -21,6 +21,8 @@ import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
 import java.util.List;
+/*
+* Den aktiviteten skaffer posisjonen til turmalet og brukeren kan legge inn tekst  som beskriver stedet */
 
 public class OpplysningerActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
@@ -39,14 +41,14 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
         setContentView(R.layout.activity_opplysninger);
 
 
-        // Create an instance of GoogleAPIClient.
+        // lager et objekt av GoogleAPIClient.
 
 
         if (mGoogleApiClient == null) {
             GoogleApiClient.Builder apiBuilder = new GoogleApiClient.Builder(this);
-            apiBuilder.addConnectionCallbacks(this);        /* ConnectionCallbacks-objekt */
-            apiBuilder.addOnConnectionFailedListener(this); /* OnConnectionFailedListener-objekt */
-            apiBuilder.addApi(LocationServices.API);        /* Velg Play Service API */
+            apiBuilder.addConnectionCallbacks(this);
+            apiBuilder.addOnConnectionFailedListener(this);
+            apiBuilder.addApi(LocationServices.API);
             mGoogleApiClient = apiBuilder.build();
         }
 
@@ -136,13 +138,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
 
 
-
-
-
-
-
-
-    public String storForBokstav(String orginal){
+  private String storForBokstav(String orginal){
         if(orginal.isEmpty())
             return orginal;
         return orginal.substring(0,1).toUpperCase()+orginal.substring(1).toLowerCase();
@@ -186,7 +182,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
             double breddeGrad = posisjon.getLatitude();
             hoyde = posisjon.getAltitude();
 
-            Toast.makeText(getApplicationContext(), hoyde+" Høyde ", Toast.LENGTH_LONG).show();
+
 
             if (MainActivity.regAnsvarligNavn != null) {
                 maal.setHoyde((int)hoyde);
@@ -206,8 +202,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
               if(adressList!=null){
                  start = adressList.get(0).getLocality() + " -";
                 start += adressList.get(0).getCountryName();
-                  Toast.makeText(getApplicationContext(), hoyde+" Høyde \n"+lengdeGrad+" LengdeG \n "+"Bredd"+ breddeGrad+" \n Adresse"+adressList.get(0).getCountryName()
-                          , Toast.LENGTH_LONG).show();
+
                   maal.setNavn(start);
               }
 

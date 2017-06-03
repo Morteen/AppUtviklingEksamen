@@ -1,5 +1,7 @@
 package com.example.morten.turmaal;
-
+/*
+* Jeg bruker bare denne akctiviteten til å bla mellom to fragmenter
+* */
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;

@@ -1,4 +1,7 @@
 package com.example.morten.turmaal;
+/**
+ * Dette fragmentet viser turmålets plassering på kartet etter brukeren har trykket på et mål i listen
+ * */
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

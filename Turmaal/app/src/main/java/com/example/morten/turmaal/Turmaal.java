@@ -176,7 +176,7 @@ public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
 
 }
 
-
+//Lager et Json objekt
     public JSONObject toJSONObject() {
         JSONObject jsonTurmaal = new JSONObject();
         try {

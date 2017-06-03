@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "SQLI basen er ikke opprettet", Toast.LENGTH_LONG).show();
             }
 
-
+//Henter data fra SQLite databasen
             Cursor CR = dbOp.getInformation(dbOp);
             if (CR != null) {
 
@@ -188,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 regAnsvarligNavn = preferences.getString("regAnsvarligNavn", "");
                 mNavn.setHint(regAnsvarligNavn);
                 mNavn.setEnabled(false);
-
 
 
                 endre.setOnClickListener(new View.OnClickListener() {
@@ -334,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    //Henter data fra databasen, finner posisjonen hvor appen blir startet og bruker  Turmaal.sorterListe til å legge turmålen i rekkefølge
     class JsonStartTask extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
@@ -431,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             final LocationManager locationManager;
-            locationManager = (LocationManager)MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
             final String locationProvider = LocationManager.GPS_PROVIDER;
             Location myLocation = null;
 
@@ -462,9 +461,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
 
                     startListView = (ListView) findViewById(R.id.startList);
-                    tmListe=Turmaal.lagTurListe(result);
-                    if(myLocation!=null){
-                     Turmaal.sorterListe(tmListe,myLocation);
+                    tmListe = Turmaal.lagTurListe(result);
+                    if (myLocation != null) {
+                        Turmaal.sorterListe(tmListe, myLocation);
                     }
                     TurAdapter adapter = new TurAdapter(getApplicationContext(), tmListe);
                     startListView.setAdapter(adapter);

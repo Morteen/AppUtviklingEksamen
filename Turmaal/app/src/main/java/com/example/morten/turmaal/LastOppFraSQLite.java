@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-/**
+/**Denne klassen laster opp data fra SQlite databasen til SQl databasen
  * Created by morten on 30.05.2017.
  */
 
