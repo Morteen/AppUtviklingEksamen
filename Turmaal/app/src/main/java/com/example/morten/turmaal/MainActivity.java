@@ -126,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        final Dialog dialog = new Dialog(MainActivity.this);
+        final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
+        final SharedPreferences.Editor editor = preferences.edit();
+
         int id = item.getItemId();
         //final Dialog dialog = new Dialog(MainActivity.this);
         //noinspection SimplifiableIfStatement
@@ -144,11 +145,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_LogIn) {
 
-            final Dialog dialog = new Dialog(MainActivity.this);
 
             dialog.setContentView(R.layout.layout_dialogbox);
-            final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
-            final SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
@@ -168,11 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-
+                     //Sjekker for balnkt felt og like passord
                     if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
 
-
-                        Toast.makeText(MainActivity.this, preferences.getString("Passord", "") + "  " + mPassword.getText().toString(), Toast.LENGTH_SHORT).show();
                         tilgang = true;
 
 
@@ -202,11 +198,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_RegNavn) {
 
-            final Dialog dialog = new Dialog(MainActivity.this);
 
             dialog.setContentView(R.layout.layout_dialogbox);
-            final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
-            final SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
@@ -265,11 +258,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_Endre) {
 
 
-            final Dialog dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.layout_dialogbox);
 
-            final SharedPreferences preferences = getSharedPreferences(REGANSVARLIGINFO, MODE_PRIVATE);
-            final SharedPreferences.Editor editor = preferences.edit();
+
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
@@ -554,16 +545,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("RegAnsv",regAnsvarligNavn);
-        outState.putBoolean("Tilgang",tilgang);
+        outState.putString("RegAnsv", regAnsvarligNavn);
+        outState.putBoolean("Tilgang", tilgang);
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        regAnsvarligNavn=savedInstanceState.getString("RegAnsv");
-        tilgang=savedInstanceState.getBoolean("Tilgang");
+        regAnsvarligNavn = savedInstanceState.getString("RegAnsv");
+        tilgang = savedInstanceState.getBoolean("Tilgang");
 
     }
 }
