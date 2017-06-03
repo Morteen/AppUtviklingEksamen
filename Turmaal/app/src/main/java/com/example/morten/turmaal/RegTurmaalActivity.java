@@ -1,6 +1,7 @@
 package com.example.morten.turmaal;
 /*Etter mye problemer endte jeg opp med å bruke det jeg lagde under forelesningen om kamera
 * */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +31,7 @@ import static android.graphics.Bitmap.createBitmap;
 
 
 public class RegTurmaalActivity extends AppCompatActivity {
-    Button  kamera, lagre;
+    Button kamera, lagre;
     static String bildeNavn;
 
     ImageView bildeView;
@@ -44,7 +45,6 @@ public class RegTurmaalActivity extends AppCompatActivity {
     Context context;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +52,8 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
 
         kamera = (Button) findViewById(R.id.kameraKnp);
-       lagre= (Button) findViewById(R.id.lagre);
+        lagre = (Button) findViewById(R.id.lagre);
         bildeView = (ImageView) findViewById(R.id.imageView);
-
-
 
 
         if (!harKamera()) {
@@ -90,13 +88,12 @@ public class RegTurmaalActivity extends AppCompatActivity {
         });
 
 
-
-       lagre.setOnClickListener(new View.OnClickListener() {
+        lagre.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.FROYO)
             @Override
             public void onClick(View v) {
 
-                Intent opplysningerIntent = new Intent(RegTurmaalActivity.this,OpplysningerActivity.class);
+                Intent opplysningerIntent = new Intent(RegTurmaalActivity.this, OpplysningerActivity.class);
                 startActivity(opplysningerIntent);
 
             }
@@ -129,8 +126,8 @@ public class RegTurmaalActivity extends AppCompatActivity {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), FOTO_MAPPE);
 // Opprett undermappen hvis den ikke alt finnes
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()) {
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 Log.d("CameraSample", "failed to create directory");
                 return null;
             }
@@ -140,7 +137,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
     private void visBildeSkalert(String photoPath) {
         // Finn høyde og bredde på ImageViewet
-       int targetW = bildeView.getWidth();
+        int targetW = bildeView.getWidth();
         int targetH = bildeView.getHeight();
         // Les dimensionene til bildet
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -155,13 +152,11 @@ public class RegTurmaalActivity extends AppCompatActivity {
         bmOptions.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
 
-        Bitmap snudd= snuBilde(bitmap, photoPath);
-        bildeView.setImageBitmap( snudd);
+        Bitmap snudd = snuBilde(bitmap, photoPath);
+        bildeView.setImageBitmap(snudd);
         // bildeView.setVisibility(View.VISIBLE);
 
     }
-
-
 
 
     private void galleryAddPic(String photoPath) {
@@ -173,44 +168,39 @@ public class RegTurmaalActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Ta_bilde_V2&& resultCode == RESULT_OK) {
-            Toast.makeText(RegTurmaalActivity.this,requestCode+" og "+resultCode,Toast.LENGTH_LONG).show();
+        if (requestCode == Ta_bilde_V2 && resultCode == RESULT_OK) {
+            Toast.makeText(RegTurmaalActivity.this, requestCode + " og " + resultCode, Toast.LENGTH_LONG).show();
             galleryAddPic(mCurrentPhotoPath);
             visBildeSkalert(mCurrentPhotoPath);
 
-            bildeNavn=mCurrentPhotoPath;
+            bildeNavn = mCurrentPhotoPath;
 
         }
     }
-    public String storForBokstav(String orginal){
-        if(orginal.isEmpty())
+
+    public String storForBokstav(String orginal) {
+        if (orginal.isEmpty())
             return orginal;
-        return orginal.substring(0,1).toUpperCase()+orginal.substring(1).toLowerCase();
+        return orginal.substring(0, 1).toUpperCase() + orginal.substring(1).toLowerCase();
 
 
     }
 
 
-
-    private Bitmap snuBilde(Bitmap bitmap, String filesti)
-    {
+    private Bitmap snuBilde(Bitmap bitmap, String filesti) {
         Bitmap resultBitmap = bitmap;
 
-        try
-        {
+        try {
             ExifInterface exifInterface = new ExifInterface(filesti);
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
             Matrix matrix = new Matrix();
 
-
-            matrix.postRotate(270);
+            matrix.postRotate(90);
             // Snu bitmap
             resultBitmap = createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        }
-        catch (Exception exception)
-        {
-            Log.d("Rotate","Kunne ikke snu bildet");
+        } catch (Exception exception) {
+            Log.d("Rotate", "Kunne ikke snu bildet");
         }
         return resultBitmap;
     }

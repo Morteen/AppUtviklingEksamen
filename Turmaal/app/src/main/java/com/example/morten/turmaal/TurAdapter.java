@@ -1,7 +1,6 @@
 package com.example.morten.turmaal;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +55,10 @@ public class TurAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView.setBackgroundResource(R.drawable.draaper);
 
-            ///Dette må tilpasses XML filen
-
             viewHolder.tvStartNavn = (TextView) convertView.findViewById(R.id.tvStartNavn);
             viewHolder.tvStartType = (TextView) convertView.findViewById(R.id.tvStartType);
             viewHolder.tvStartHoyde = (TextView) convertView.findViewById(R.id.tvStartHoyde);
-            viewHolder.tvAvstand=(TextView)convertView.findViewById(R.id.tAvstand);
-
+            viewHolder.tvAvstand = (TextView) convertView.findViewById(R.id.tAvstand);
 
 
             convertView.setTag(viewHolder);
@@ -73,16 +69,10 @@ public class TurAdapter extends BaseAdapter {
 
         Turmaal currentMaal = mineTuraal.get(position);
 
-
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
-        viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()) + " meter over havet");
-        viewHolder.tvAvstand.setText(Integer.toString(currentMaal.getHoyde()));
-
-        Log.d("BildeURL", currentMaal.getBilde_URL());
-
-
-
+        viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()) + " meter");
+        viewHolder.tvAvstand.setText(Integer.toString(currentMaal.getAvstand()/1000) + " Km");
 
 
         return convertView;
@@ -94,12 +84,10 @@ public class TurAdapter extends BaseAdapter {
         public TextView tvStartNavn;
         public TextView tvStartType;
         public TextView tvStartHoyde;
-       public TextView tvAvstand;
-
+        public TextView tvAvstand;
 
 
     }
-
 
 
 }

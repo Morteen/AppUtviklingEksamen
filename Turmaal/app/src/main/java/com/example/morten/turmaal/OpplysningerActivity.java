@@ -22,17 +22,17 @@ import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 import java.util.List;
 /*
-* Den aktiviteten skaffer posisjonen til turmalet og brukeren kan legge inn tekst  som beskriver stedet */
+* Den aktiviteten skaffer posisjonen til turmalet og brukeren kan legge inn tekst  som beskriver stedet
+ * */
 
 public class OpplysningerActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
     Button lagreTm;
-    EditText mType,mBeskrivelse,mNavn;
+    EditText mType, mBeskrivelse, mNavn;
     public final static int REQUEST_LOCATION = 1;
     double hoyde;
-
     Turmaal maal;
-    GoogleApiClient mGoogleApiClient=null;
+    GoogleApiClient mGoogleApiClient = null;
     private Location minPosisjon = null;
 
     @Override
@@ -42,8 +42,6 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
 
         // lager et objekt av GoogleAPIClient.
-
-
         if (mGoogleApiClient == null) {
             GoogleApiClient.Builder apiBuilder = new GoogleApiClient.Builder(this);
             apiBuilder.addConnectionCallbacks(this);
@@ -53,20 +51,15 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
         }
 
 
-
         maal = new Turmaal();
-
-
-        mNavn=(EditText)findViewById(R.id.eNavn);
-        mBeskrivelse=(EditText)findViewById(R.id.eBeskrivelse);
-        mType=(EditText)findViewById(R.id.eType);
+        mNavn = (EditText) findViewById(R.id.eNavn);
+        mBeskrivelse = (EditText) findViewById(R.id.eBeskrivelse);
+        mType = (EditText) findViewById(R.id.eType);
         lagreTm = (Button) findViewById(R.id.lagreTm);
 
         lagreTm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 /////////////////////////
 
@@ -74,30 +67,27 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                     maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
                     RegTurmaalActivity.bildeNavn = null;
                 }
-                if(!mNavn.getText().toString().isEmpty()){
+                if (!mNavn.getText().toString().isEmpty()) {
                     maal.setNavn(storForBokstav(mNavn.getText().toString()));
                 }
-                if(!mBeskrivelse.getText().toString().isEmpty()){
+                if (!mBeskrivelse.getText().toString().isEmpty()) {
                     maal.setBeskrivelse(storForBokstav(mBeskrivelse.getText().toString()));
                 }
-                if(!mType.getText().toString().isEmpty()){
+                if (!mType.getText().toString().isEmpty()) {
                     maal.setType(storForBokstav(mType.getText().toString()));
                 }
-                if(RegTurmaalActivity.bildeNavn!=null){
+                if (RegTurmaalActivity.bildeNavn != null) {
                     maal.setBilde_URL(RegTurmaalActivity.bildeNavn);
                 }
 
-                        // Hent siste kjente posisjon
+                ///Lagrer opplysningene i SQLITE basen
+                DatabaseOperasjoner dbOp = new DatabaseOperasjoner(OpplysningerActivity.this);
+                dbOp.putInformation(dbOp, maal);
 
-
-                            ///Lagrer opplysningene i SQLITE basen
-                            DatabaseOperasjoner dbOp = new DatabaseOperasjoner(OpplysningerActivity.this);
-                            dbOp.putInformation(dbOp, maal);
-
-
-
-                        Intent tilBakeTilMain = new Intent(OpplysningerActivity.this,MainActivity.class);
-                        startActivity(tilBakeTilMain);
+                //Intent for å gå tilbake til Main
+                Intent tilBakeTilMain = new Intent(OpplysningerActivity.this, MainActivity.class);
+                startActivity(tilBakeTilMain);
+                finish();
 
                 ///////////////////////
 
@@ -116,9 +106,6 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     }
 
 
-    // Implementasjon av metode fra interface GoogleApiClient.ConnectionCallbacks
-    // Kalles når Api-klienten har fått kontakt
-
     @Override
     public void onConnected(Bundle connectionHint) {
 
@@ -126,7 +113,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
         } else {
 
@@ -136,12 +123,10 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     }
 
 
-
-
-  private String storForBokstav(String orginal){
-        if(orginal.isEmpty())
+    private String storForBokstav(String orginal) {
+        if (orginal.isEmpty())
             return orginal;
-        return orginal.substring(0,1).toUpperCase()+orginal.substring(1).toLowerCase();
+        return orginal.substring(0, 1).toUpperCase() + orginal.substring(1).toLowerCase();
 
 
     }
@@ -149,18 +134,17 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     // Callbackmetode som kalles etter at bruker har svart på spørsmål om rettigheter
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if (requestCode==REQUEST_LOCATION) {
-            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 try {
                     minPosisjon = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                     this.visMinPos(minPosisjon);
 
-                }
-                catch (SecurityException e) {
+                } catch (SecurityException e) {
                     e.printStackTrace();
                 }
             } else {
-                // Permission was denied or request was cancelled
+
                 Toast.makeText(getApplicationContext(),
                         "Kan ikke vise posisjon uten tillatelse", Toast.LENGTH_LONG).show();
             }
@@ -173,9 +157,10 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     }
 
     @Override
-    public void onConnectionFailed( ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
         Toast.makeText(getApplicationContext(), "Får ikke kontakt med Google Play Services", Toast.LENGTH_LONG).show();
     }
+
     private void visMinPos(Location posisjon) {
         if (posisjon != null) {
             double lengdeGrad = posisjon.getLongitude();
@@ -183,9 +168,8 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
             hoyde = posisjon.getAltitude();
 
 
-
             if (MainActivity.regAnsvarligNavn != null) {
-                maal.setHoyde((int)hoyde);
+                maal.setHoyde((int) hoyde);
                 maal.setLengdegrad((float) lengdeGrad);
                 maal.setBreddegrad((float) breddeGrad);
                 maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
@@ -198,22 +182,20 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String start=null;
-              if(adressList!=null){
-                 start = adressList.get(0).getLocality() + " -";
-                start += adressList.get(0).getCountryName();
+                String start = null;
+                if (adressList != null) {
+                    start = adressList.get(0).getLocality() + " -";
+                    start += adressList.get(0).getCountryName();
 
-                  maal.setNavn(start);
-              }
-
-
+                    maal.setNavn(start);
+                }
 
 
             }
 
-            lengdeGrad=0.0;
-            breddeGrad=0.0;
+            lengdeGrad = 0.0;
+            breddeGrad = 0.0;
 
-            }
+        }
     }
 }

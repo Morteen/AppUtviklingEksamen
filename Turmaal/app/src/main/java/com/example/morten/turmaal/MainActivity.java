@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                     //Sjekker for balnkt felt og like passord
+                    //Sjekker for balnkt felt og like passord
                     if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
 
                         tilgang = true;
@@ -495,7 +495,6 @@ public class MainActivity extends AppCompatActivity {
                             if (!tilgang) {
                                 Toast.makeText(getApplicationContext(), "Du må logge inn ", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Posisjon " + position, Toast.LENGTH_LONG).show();
                                 curTm = tmListe.get(position);
                                 Intent VisCurIntent = new Intent(getApplicationContext(), VisEtMaalActivity.class);
                                 startActivity(VisCurIntent);
@@ -549,6 +548,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("Tilgang", tilgang);
 
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
