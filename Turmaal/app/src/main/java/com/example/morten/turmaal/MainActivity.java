@@ -100,16 +100,11 @@ public class MainActivity extends AppCompatActivity {
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-
+fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tilgang) {
-                    Intent regTurmaalIntent = new Intent(MainActivity.this, RegTurmaalActivity.class);
-                    startActivity(regTurmaalIntent);
-                } else {
-                    Toast.makeText(MainActivity.this, "Du må logge inn først", Toast.LENGTH_LONG).show();
-                }
+
 
             }
         });

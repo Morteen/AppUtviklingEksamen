@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tur"
    >
 <RelativeLayout
     android:layout_width="wrap_content"
@@ -16,7 +17,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="50dp"
         android:paddingTop="20dp"
-
         android:text="@string/turmaal_navn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -24,13 +24,12 @@
         android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Type"
-        android:layout_below="@+id/tvNavn"
         android:layout_alignParentStart="true"
-         />
-
-
+        android:layout_below="@+id/tvNavn"
+        android:layout_marginTop="1dp"
+        android:text="Type"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+    "
 
     <TextView
         android:id="@+id/tvRegAnsvarlig"
@@ -38,9 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvType"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:text="Registret av" />
+        android:layout_marginTop="5dp"
+        android:text="Registret av"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
 
 
 
@@ -50,8 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvRegAnsvarlig"
-        android:layout_marginTop="1dp"
-        android:text="Høyde" />
+        android:layout_marginTop="5dp"
+        android:text="Høyde"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
 
 
@@ -61,8 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tHoyde"
-        android:layout_marginTop="15dp"
-        android:text="Avstand" />
+        android:layout_marginTop="7dp"
+        android:text="Avstand"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
 
 
@@ -70,10 +71,11 @@
         android:id="@+id/ivIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         app:srcCompat="@drawable/fjell"
         android:layout_below="@+id/tAvstand"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         android:id="@+id/textView13"
@@ -83,7 +85,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:text="@string/sveip_til_plassering_p_kart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        />
 
     <TextView
         android:id="@+id/tvBeskrivelse"
@@ -92,6 +95,7 @@
         android:layout_below="@+id/textView13"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="@string/beskrivelse_turmaal" />
+        android:text="@string/beskrivelse_turmaal"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 </RelativeLayout>
 </ScrollView>

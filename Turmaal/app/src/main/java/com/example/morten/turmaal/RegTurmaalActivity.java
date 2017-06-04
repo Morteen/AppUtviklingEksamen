@@ -121,14 +121,14 @@ public class RegTurmaalActivity extends AppCompatActivity {
     }
 
 
-    private File getPhotoDir() {
+    private File getPhotoDir(){
 //// Finn/lag undermappe for bilder under Pictures mappen på felles eksternt lager
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), FOTO_MAPPE);
 // Opprett undermappen hvis den ikke alt finnes
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("CameraSample", "failed to create directory");
+                Log.d("BildeEksempel", "fKlarte ikke å lage mappe");
                 return null;
             }
         }
