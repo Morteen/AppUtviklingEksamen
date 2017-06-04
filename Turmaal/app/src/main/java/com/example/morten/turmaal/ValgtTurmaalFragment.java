@@ -18,11 +18,11 @@ import java.io.InputStream;
 public class ValgtTurmaalFragment extends Fragment {
 
     ImageView ivIcon;
-    TextView tvNavn,tvType,tvHoyde,tvRegAnsvarlig,tvBeskrivelse,tAvstand;
-        public ValgtTurmaalFragment() {
+    TextView tvNavn, tvType, tvHoyde, tvRegAnsvarlig, tvBeskrivelse, tAvstand;
+
+    public ValgtTurmaalFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -37,28 +37,29 @@ public class ValgtTurmaalFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.maalrad, container, false);
 
-        ivIcon=(ImageView)view.findViewById(R.id.ivIcon) ;
-        tvNavn=(TextView) view.findViewById(R.id.tvNavn);
-        tvType=(TextView)view.findViewById(R.id.tvType);
-        tvHoyde=(TextView)view.findViewById(R.id.tHoyde);
-        tAvstand=(TextView)view.findViewById(R.id.tAvstand);
-        tvRegAnsvarlig=(TextView)view.findViewById(R.id.tvRegAnsvarlig) ;
-        tvBeskrivelse=(TextView)view.findViewById(R.id.tvBeskrivelse) ;
+        ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
+        tvNavn = (TextView) view.findViewById(R.id.tvNavn);
+        tvType = (TextView) view.findViewById(R.id.tvType);
+        tvHoyde = (TextView) view.findViewById(R.id.tHoyde);
+        tAvstand = (TextView) view.findViewById(R.id.tAvstand);
+        tvRegAnsvarlig = (TextView) view.findViewById(R.id.tvRegAnsvarlig);
+        tvBeskrivelse = (TextView) view.findViewById(R.id.tvBeskrivelse);
 
         tvNavn.setText(MainActivity.curTm.getNavn());
-        tvType.setText("Type:  "+MainActivity.curTm.getType());
-        tvHoyde.setText("Høyde:  "+Integer.toString(MainActivity.curTm.getHoyde())+ " meter");
-        tvRegAnsvarlig.setText("Registret av:  "+MainActivity.curTm.getRegAnsvarlig());
+        tvType.setText("Type:  " + MainActivity.curTm.getType());
+        tvHoyde.setText("Høyde:  " + Integer.toString(MainActivity.curTm.getHoyde()) + " meter");
+        tvRegAnsvarlig.setText("Registret av:  " + MainActivity.curTm.getRegAnsvarlig());
         tvBeskrivelse.setText(MainActivity.curTm.getBeskrivelse());
-        tAvstand.setText("Avstand:  "+Integer.toString(MainActivity.curTm.getAvstand()/1000)+" km");
+        if (MainActivity.curTm.getAvstand() / 1000 < 1) {
+            tAvstand.setText("Avstand:  " + Integer.toString(MainActivity.curTm.getAvstand()) + " m");
+
+        } else {
+            tAvstand.setText("Avstand:  " + Integer.toString(MainActivity.curTm.getAvstand() / 1000) + " km");
+
+        }
 
 
-
-
-        new DownloadImageTask((ImageView)view.findViewById(R.id.ivIcon)).execute(MainActivity.curTm.getBilde_URL());
-
-
-
+        new DownloadImageTask((ImageView) view.findViewById(R.id.ivIcon)).execute(MainActivity.curTm.getBilde_URL());
 
 
         return view;
@@ -87,14 +88,9 @@ public class ValgtTurmaalFragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
 
 
-
-
-
             bmImage.setImageBitmap(result);
         }
     }
-
-    
 
 
 }

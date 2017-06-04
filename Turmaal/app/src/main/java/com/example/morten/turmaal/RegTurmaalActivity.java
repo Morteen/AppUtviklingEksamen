@@ -133,7 +133,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
         // Opprett undermappen hvis den ikke alt finnes
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("BildeEksempel", "fKlarte ikke å lage mappe");
+                Log.d("BildeEksempel", "Klarte ikke å lage mappe");
                 return null;
             }
         }
@@ -174,7 +174,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Ta_bilde_V2 && resultCode == RESULT_OK) {
-            Toast.makeText(RegTurmaalActivity.this, requestCode + " og " + resultCode, Toast.LENGTH_LONG).show();
+
             galleryAddPic(mCurrentPhotoPath);
             visBildeSkalert(mCurrentPhotoPath);
 
