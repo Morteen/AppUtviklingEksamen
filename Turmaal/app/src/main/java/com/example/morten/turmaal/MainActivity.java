@@ -64,9 +64,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         tilgang = false;
 
+        //Henter tilgang = true fra OpplysningActivity
+        if (getIntent().getExtras() != null) {
+            tilgang = getIntent().getExtras().getBoolean("Tilgang");
+        }
 
+        //Lager et DatabaseOpersjoner objekt for å hente SQLite data
         DatabaseOperasjoner dbOp = new DatabaseOperasjoner(MainActivity.this);
-
 
         if (isOnline()) {
             if (DatabaseOperasjoner.doesDatabaseExist(MainActivity.this, "TUR.DB")) {
@@ -76,11 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "SQLI basen er ikke opprettet", Toast.LENGTH_LONG).show();
             }
 
-//Henter data fra SQLite databasen
+          //Henter data fra SQLite databasen
             Cursor CR = dbOp.getInformation(dbOp);
             if (CR != null) {
 
                 ArrayList<Turmaal> list = Turmaal.lagTurListeFraSqlite(CR);
+
+                //Laster opp alle data til SQL serveren
                 new LastOppFraSQLite(getApplicationContext(), list).execute();
 
 
@@ -93,14 +99,17 @@ public class MainActivity extends AppCompatActivity {
         //sjekker om brukeren er online
         //og overfører SQLITE data hvis den er på nett
         if (isOnline()) {
-
+          // Hente alle data fra SQL databasen
             new JsonStartTask().execute();
         } else {
             Toast.makeText(this, "Telefonene er ikke på nett", Toast.LENGTH_LONG).show();
         }
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-fab.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,9 +135,8 @@ fab.setVisibility(View.GONE);
         final SharedPreferences.Editor editor = preferences.edit();
 
         int id = item.getItemId();
-        //final Dialog dialog = new Dialog(MainActivity.this);
-        //noinspection SimplifiableIfStatement
 
+        //Sender brukeren til RegTurmål aktiviteten med Intent
         if (id == R.id.action_Legg_til) {
             if (tilgang) {
                 Intent regTurmaalIntent = new Intent(MainActivity.this, RegTurmaalActivity.class);
@@ -140,7 +148,7 @@ fab.setVisibility(View.GONE);
         }
         if (id == R.id.action_LogIn) {
 
-
+            //Starter en dialogbox for å logge inn
             dialog.setContentView(R.layout.layout_dialogbox);
             editor.putBoolean(FIRST_USE_SETTING, false);
 
@@ -161,7 +169,7 @@ fab.setVisibility(View.GONE);
                 @Override
                 public void onClick(View v) {
 
-                    //Sjekker for balnkt felt og like passord
+                    //Sjekker for blankt felt og like passord
                     if (!mPassword.getText().toString().isEmpty() && preferences.getString("Passord", "").toString().equals(mPassword.getText().toString())) {
 
                         tilgang = true;
@@ -211,8 +219,7 @@ fab.setVisibility(View.GONE);
                 endre.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-
+                     //Registrerer navn og passord
                         if (!mNavn.getText().toString().isEmpty() || mPassword.getText().toString().isEmpty()) {
                             regAnsvarligNavn = storForBokstav(mNavn.getText().toString());
                             editor.putString("regAnsvarligNavn", regAnsvarligNavn);
@@ -252,10 +259,8 @@ fab.setVisibility(View.GONE);
 
         } else if (id == R.id.action_Endre) {
 
-
+          //Lar brukeren endre passord og navn
             dialog.setContentView(R.layout.layout_dialogbox);
-
-
             editor.putBoolean(FIRST_USE_SETTING, false);
 
 
@@ -265,7 +270,7 @@ fab.setVisibility(View.GONE);
             Button avbryt = (Button) dialog.findViewById(R.id.avslutt_btn);
             TextView tekst = (TextView) dialog.findViewById(R.id.dialogBoxTekst);
 
-            // Read the FIRST_USE_SETTING. Default value=true
+
             boolean firstUse = preferences.getBoolean(FIRST_USE_SETTING, true);
             if (!firstUse) {
                 tekst.setText("Endre navn eller Passord");
@@ -317,7 +322,7 @@ fab.setVisibility(View.GONE);
 
         } else if (id == R.id.action_Slett) {
 
-
+           //Lar brukeren slette navn og passord og gir en alertbox for å være sikker
             AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this);
             ab.setTitle("Er du sikker");
 
@@ -350,7 +355,13 @@ fab.setVisibility(View.GONE);
         return super.onOptionsItemSelected(item);
     }
 
-    //Henter data fra databasen, finner posisjonen hvor appen blir startet og bruker  Turmaal.sorterListe til å legge turmålen i rekkefølge
+
+    /***
+     * /***
+     * Henter data fra databasen, finner posisjonen hvor appen blir startet og bruker  Turmaal.sorterListe til å legge turmålen i rekkefølge
+     */
+
+
     class JsonStartTask extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
@@ -516,8 +527,7 @@ fab.setVisibility(View.GONE);
 
     /**
      * Sjekker om  det er nettverkstilgang
-     *
-     * @return true or  false
+     * * @return true or  false
      */
     protected boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(MainActivity.CONNECTIVITY_SERVICE);
@@ -526,8 +536,11 @@ fab.setVisibility(View.GONE);
     }
 
 
-    ////////////////////////////////////////////////////////////////
-
+    /***
+     * Lager stor forbokstav på Opplysningene som blir lagt inn
+     * @param orginal
+     * @return
+     */
     public String storForBokstav(String orginal) {
         if (orginal.isEmpty())
             return orginal;

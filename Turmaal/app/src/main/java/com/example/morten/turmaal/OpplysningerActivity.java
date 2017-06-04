@@ -92,7 +92,11 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 dbOp.putInformation(dbOp, maal);
 
                 //Intent for å gå tilbake til Main
+                Bundle b = new Bundle();
+                b.putBoolean("Tilgang", true);
+
                 Intent tilBakeTilMain = new Intent(OpplysningerActivity.this, MainActivity.class);
+                tilBakeTilMain.putExtras(b);
                 startActivity(tilBakeTilMain);
                 finish();
 
