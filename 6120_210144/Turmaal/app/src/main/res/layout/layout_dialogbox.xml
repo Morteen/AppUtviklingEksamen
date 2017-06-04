@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:id="@+id/dialogBoxTekst"
+        android:layout_marginTop="5dp"
+        android:text="Login"/>
+
+    <EditText
+        android:id="@+id/editNavn"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Navn"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:paddingRight="5dp"
+       android:gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="OK" />
+
+        <Button
+            android:id="@+id/avslutt_btn"
+            android:layout_width="match_parent"
+            android:paddingLeft="5dp"
+          android:gravity="center_horizontal"
+
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="15dp"
+
+            android:text="Avbryt"
+             />
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tur"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.morten.turmaal.OpplysningerActivity"
+    tools:showIn="@layout/activity_opplysninger"
+    android:padding="15dp"
+ >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="@string/legg_til_opplysninger_om_stedet"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <EditText
+        android:id="@+id/eType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:hint="@string/type_turm_l2"
+        android:inputType="textPersonName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <EditText
+        android:id="@+id/eBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/eNavn"
+        android:layout_below="@+id/eNavn"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="@string/lag_en_beskrivelse_av_stedet"
+        android:inputType="textMultiLine"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault" />
+
+    <EditText
+        android:id="@+id/eNavn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/eType"
+        android:layout_below="@+id/eType"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="@string/navn_p_stedet"
+        android:inputType="textPersonName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <Button
+        android:id="@+id/lagreTm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="24dp"
+
+        android:text="Lagre"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

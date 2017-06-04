@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Ut på tur</string>
+    <string name="action_settings">Registrer navn</string>
+    <string name="title_activity_vis_et_maal">Ut på tur</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="registrer">Registrer</string>
+    <string name="legg_inn_et_navn_for_du_vil_registrere_turm_l_under">Legg inn et navn for du vil \n registrere turmålet under</string>
+    <string name="title_activity_reg_turmaal">Registrer turmål</string>
+    <string name="registrer_navn">Registrer navn</string>
+    <string name="endre_opplysninger">Endre Opplysninger</string>
+    <string name="legg_til_type_turm_l_og_en_beskrivelse">Ta et bildet av stedet \n og del med andre</string>
+    <string name="beskrivelse">Beskrivelse</string>
+    <string name="title_activity_opplysninger">Legg til Opplysninger</string>
+    <string name="turmaal_navn">Navn</string>
+    <string name="beskrivelse_turmaal">Lag en beskrivelse av plassen</string>
+    <string name="sveip_til_plassering_p_kart">Sveip til plassering på kart</string>
+    <string name="lag_en_beskrivelse_av_plassen">Lag en beskrivelse av plassen</string>
+    <string name="type_turm_l">Type turmål</string>
+    <string name="avbryt">Avbryt</string>
+    <string name="type_og_beskrivelse_lagre">Lagre</string>
+    <string name="lag_en_beskrivelse_av_stedet">Lag en beskrivelse av stedet</string>
+    <string name="type_turm_l2">Type turmål</string>
+    <string name="navn_p_stedet">Navn på stedet</string>
+    <string name="legg_til_opplysninger_om_stedet">Legg til opplysninger om stedet</string>
+    <string name="v_re_fineste_turm_l">Våre fineste turmål</string>
+</resources>

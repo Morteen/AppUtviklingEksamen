@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bakgrunn2"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"
+android:textColor="@color/colorCustom"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <EditText
+        android:id="@+id/eType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:ems="10"
+        android:textColor="@color/colorCustom"
+        android:inputType="textPersonName"
+        android:hint="@string/type_turm_l" />
+
+    <EditText
+        android:id="@+id/eBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/eType"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:textColor="@color/colorCustom"
+      android:hint="@string/lag_en_beskrivelse_av_plassen"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/regBeskivelse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/type_og_beskrivelse_lagre"
+        android:textColor="@color/colorCustom"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="111dp"
+        android:layout_below="@+id/eBeskrivelse"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/avbryt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/avbryt"
+        android:textColor="@color/colorCustom"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/regBeskivelse"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>

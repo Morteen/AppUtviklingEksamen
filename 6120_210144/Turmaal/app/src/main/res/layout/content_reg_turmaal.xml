@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.morten.turmaal.RegTurmaalActivity"
+    tools:showIn="@layout/activity_reg_turmaal"
+    android:padding="10dp"
+    android:background="@drawable/tur">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+
+    <Button
+        android:id="@+id/kameraKnp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kamera"
+        android:layout_above="@+id/lagre"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/kameraKnp" />
+
+
+    <Button
+        android:id="@+id/lagre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lagre tur mål"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
