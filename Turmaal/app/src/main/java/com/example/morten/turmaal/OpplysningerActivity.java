@@ -192,7 +192,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 }
                 start = null;
                 if (adressList != null) {
-                   
+
                     start = adressList.get(0).getCountryName();
 
                     maal.setNavn(start);

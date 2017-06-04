@@ -8,15 +8,16 @@
     tools:context="com.example.morten.turmaal.RegTurmaalActivity"
     tools:showIn="@layout/activity_reg_turmaal"
     android:padding="10dp"
-    android:background="@drawable/bakgrunn2">
+    android:background="@drawable/tur">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/legg_til_type_turm_l_og_en_beskrivelse"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
 
     <Button

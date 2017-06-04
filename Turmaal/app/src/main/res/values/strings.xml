@@ -24,4 +24,5 @@
     <string name="lag_en_beskrivelse_av_stedet">Lag en beskrivelse av stedet</string>
     <string name="type_turm_l2">Type turmål</string>
     <string name="navn_p_stedet">Navn på stedet</string>
+    <string name="legg_til_opplysninger_om_stedet">Legg til opplysninger om stedet</string>
 </resources>
