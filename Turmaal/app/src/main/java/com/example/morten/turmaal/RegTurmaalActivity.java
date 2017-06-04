@@ -174,9 +174,11 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Ta_bilde_V2 && resultCode == RESULT_OK) {
+            if (mCurrentPhotoPath!=null) {
+                galleryAddPic(mCurrentPhotoPath);
+                visBildeSkalert(mCurrentPhotoPath);
+            }
 
-            galleryAddPic(mCurrentPhotoPath);
-            visBildeSkalert(mCurrentPhotoPath);
 
             bildeNavn = mCurrentPhotoPath;
 
