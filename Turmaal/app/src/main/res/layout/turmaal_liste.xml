@@ -3,7 +3,10 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="2dp">
 
 
 
@@ -16,29 +19,29 @@
        android:textColor="@color/colorCustom"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible"
-        android:layout_marginTop="45dp"
-
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tvStartType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="Type"
-        android:textColor="@color/colorCustom"
         android:layout_below="@+id/tvStartNavn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorCustom"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
     <TextView
         android:id="@+id/tvStartHoyde"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Høyde"
-        android:textColor="@color/colorCustom"
-        android:layout_marginTop="51dp"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/tvStartType"
+        android:textColor="@color/colorCustom"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -48,7 +51,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/tvStartType"
         android:layout_marginStart="34dp"
-        android:text="Avstand" />
+        android:textColor="@color/colorCustom"
+        android:text="Type "
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
     <TextView
         android:id="@+id/textView8"
@@ -56,7 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvStartHoyde"
         android:layout_alignStart="@+id/textView4"
-        android:text="Høyde" />
+        android:textColor="@color/colorCustom"
+        android:text="Høyde "
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
     <TextView
         android:id="@+id/tAvstand"
@@ -64,8 +71,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvStartHoyde"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="49dp"
-        android:text="Avstand" />
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorCustom"
+        android:text="Avstand"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
     <TextView
         android:id="@+id/textView10"
@@ -73,7 +82,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tAvstand"
         android:layout_alignStart="@+id/textView8"
-        android:text="Avstand" />
+        android:textColor="@color/colorCustom"
+        android:text="Avstand "
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"/>
 
 
 </RelativeLayout>

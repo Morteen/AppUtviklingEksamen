@@ -53,7 +53,7 @@ public class TurAdapter extends BaseAdapter {
             //XML fil-navnet
             convertView = mInflater.inflate(R.layout.turmaal_liste, null);
             viewHolder = new ViewHolder();
-            convertView.setBackgroundResource(R.drawable.draaper);
+            //convertView.setBackgroundResource(R.drawable.draaper);
 
             viewHolder.tvStartNavn = (TextView) convertView.findViewById(R.id.tvStartNavn);
             viewHolder.tvStartType = (TextView) convertView.findViewById(R.id.tvStartType);
