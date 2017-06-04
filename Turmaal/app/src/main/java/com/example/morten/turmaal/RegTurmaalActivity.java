@@ -29,14 +29,17 @@ import java.util.Date;
 
 import static android.graphics.Bitmap.createBitmap;
 
-
+/*
+* Denne aktiviteten tar bilder av turmålet og lagrer til fil
+* Jeg hadde så mye problemer her at jeg endte opp med å kopier det jeg gjorde under forelesningen om emnet
+* */
 public class RegTurmaalActivity extends AppCompatActivity {
     Button kamera, lagre;
     static String bildeNavn;
 
     ImageView bildeView;
-    private String mCurrentPhotoPath = null; // Objektvariabel med fullstendig filnavn til bildet
-    private static final String FOTO_MAPPE = "MineBilder"; // Katalognavn for bildene tatt med denne appen
+    private String mCurrentPhotoPath = null;
+    private static final String FOTO_MAPPE = "MineBilder";
     private static final int Ta_bilde_V2 = 2;
 
 
@@ -66,16 +69,17 @@ public class RegTurmaalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Intent for å starte standard kamera
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-// Sjekk om det finnes en app som vil behandle Intent'en
+
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-// Lag File objektet som bildet skal lagres på
+
                     File photoFile = null;
                     try {
                         photoFile = createImageFile();
                     } catch (IOException ex) { // Feil ved oppretting av fil
+
                         Toast.makeText(RegTurmaalActivity.this, "Feil ved oppretting av fil for bilde.", Toast.LENGTH_LONG).show();
                     }
-// Fortsett hvis File objektet ble laget
+
                     if (photoFile != null) {
                         Uri PhotoUri = Uri.fromFile(photoFile);
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, PhotoUri);
@@ -108,24 +112,24 @@ public class RegTurmaalActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-// Lag et unikt filnavn for bildet
+          // Lag et unikt filnavn for bildet
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
-// Finn mappe for bilder under /sdcard/Pictures
+
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName, ".jpg", storageDir);
-// Lagrer fullstendig filnavn i en objektvariabel for bruk i andre metoder
+
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
 
     private File getPhotoDir(){
-//// Finn/lag undermappe for bilder under Pictures mappen på felles eksternt lager
+
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), FOTO_MAPPE);
-// Opprett undermappen hvis den ikke alt finnes
+              // Opprett undermappen hvis den ikke alt finnes
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 Log.d("BildeEksempel", "fKlarte ikke å lage mappe");
@@ -154,7 +158,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
         Bitmap snudd = snuBilde(bitmap, photoPath);
         bildeView.setImageBitmap(snudd);
-        // bildeView.setVisibility(View.VISIBLE);
+
 
     }
 
@@ -178,14 +182,11 @@ public class RegTurmaalActivity extends AppCompatActivity {
         }
     }
 
-    public String storForBokstav(String orginal) {
-        if (orginal.isEmpty())
-            return orginal;
-        return orginal.substring(0, 1).toUpperCase() + orginal.substring(1).toLowerCase();
 
 
-    }
-
+/*Dette er en metode som snur bildet.
+Da denne appen tar landskaps bilder blir bilde tatt fra deg riktig. Selfi-mode blir oppned
+*/
 
     private Bitmap snuBilde(Bitmap bitmap, String filesti) {
         Bitmap resultBitmap = bitmap;

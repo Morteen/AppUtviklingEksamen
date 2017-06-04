@@ -53,7 +53,7 @@ public class TurAdapter extends BaseAdapter {
             //XML fil-navnet
             convertView = mInflater.inflate(R.layout.turmaal_liste, null);
             viewHolder = new ViewHolder();
-            //convertView.setBackgroundResource(R.drawable.draaper);
+
 
             viewHolder.tvStartNavn = (TextView) convertView.findViewById(R.id.tvStartNavn);
             viewHolder.tvStartType = (TextView) convertView.findViewById(R.id.tvStartType);
@@ -72,7 +72,11 @@ public class TurAdapter extends BaseAdapter {
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
         viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()) + " meter");
+        if(currentMaal.getAvstand()/1000<1){
+            viewHolder.tvAvstand.setText(Integer.toString(currentMaal.getAvstand()) + " m");
+        }else{
         viewHolder.tvAvstand.setText(Integer.toString(currentMaal.getAvstand()/1000) + " Km");
+        }
 
 
         return convertView;

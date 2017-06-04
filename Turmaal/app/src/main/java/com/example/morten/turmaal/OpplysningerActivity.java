@@ -34,6 +34,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     Turmaal maal;
     GoogleApiClient mGoogleApiClient = null;
     private Location minPosisjon = null;
+    String start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,13 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                     RegTurmaalActivity.bildeNavn = null;
                 }
                 if (!mNavn.getText().toString().isEmpty()) {
-                    maal.setNavn(storForBokstav(mNavn.getText().toString()));
+                    String temp=storForBokstav(mNavn.getText().toString());
+                    if(!start.isEmpty()){
+                      temp+= " -" +start;
+
+                    }
+                    maal.setNavn(temp);
+
                 }
                 if (!mBeskrivelse.getText().toString().isEmpty()) {
                     maal.setBeskrivelse(storForBokstav(mBeskrivelse.getText().toString()));
@@ -101,7 +108,6 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
     @Override
     protected void onStart() {
         super.onStart();
-        // Connect the ApiClient to Google Services
         mGoogleApiClient.connect();
     }
 
@@ -173,6 +179,8 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 maal.setLengdegrad((float) lengdeGrad);
                 maal.setBreddegrad((float) breddeGrad);
                 maal.setRegAnsvarlig(storForBokstav(MainActivity.regAnsvarligNavn));
+
+
                 Geocoder geocoder = new Geocoder(OpplysningerActivity.this);
                 List<Address> adressList = null;
 
@@ -182,10 +190,10 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String start = null;
+                start = null;
                 if (adressList != null) {
-                    start = adressList.get(0).getLocality() + " -";
-                    start += adressList.get(0).getCountryName();
+                   
+                    start = adressList.get(0).getCountryName();
 
                     maal.setNavn(start);
                 }
