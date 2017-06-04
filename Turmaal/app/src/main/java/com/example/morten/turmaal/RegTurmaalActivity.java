@@ -42,11 +42,9 @@ public class RegTurmaalActivity extends AppCompatActivity {
     private static final String FOTO_MAPPE = "MineBilder";
     private static final int Ta_bilde_V2 = 2;
 
-
     File bildeFil;
     Uri uri;
     Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,7 @@ public class RegTurmaalActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.FROYO)
             @Override
             public void onClick(View v) {
-
+                //Starter en intent for lagre valgte bilde
                 Intent opplysningerIntent = new Intent(RegTurmaalActivity.this, OpplysningerActivity.class);
                 startActivity(opplysningerIntent);
 
@@ -106,13 +104,16 @@ public class RegTurmaalActivity extends AppCompatActivity {
 
     }
 
-
+    /***
+     * Sjekker om det finnes kamera
+     * @return om appen har kamera eller ikke
+     */
     private boolean harKamera() {
         return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
 
     private File createImageFile() throws IOException {
-          // Lag et unikt filnavn for bildet
+        // Lag et unikt filnavn for bildet
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMAGE_" + timeStamp + "_";
 
@@ -125,11 +126,11 @@ public class RegTurmaalActivity extends AppCompatActivity {
     }
 
 
-    private File getPhotoDir(){
+    private File getPhotoDir() {
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), FOTO_MAPPE);
-              // Opprett undermappen hvis den ikke alt finnes
+        // Opprett undermappen hvis den ikke alt finnes
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 Log.d("BildeEksempel", "fKlarte ikke å lage mappe");
@@ -183,10 +184,14 @@ public class RegTurmaalActivity extends AppCompatActivity {
     }
 
 
+    /***
+     * Dette er en metode som snur bildet.
+     Da denne appen tar landskaps bilder blir bilde tatt fra deg riktig. Selfi-mode blir oppned
+     * @param bitmap
+     * @param filesti
+     * @return Bitmap med bildet i riktig posisjon
+     */
 
-/*Dette er en metode som snur bildet.
-Da denne appen tar landskaps bilder blir bilde tatt fra deg riktig. Selfi-mode blir oppned
-*/
 
     private Bitmap snuBilde(Bitmap bitmap, String filesti) {
         Bitmap resultBitmap = bitmap;
@@ -196,9 +201,8 @@ Da denne appen tar landskaps bilder blir bilde tatt fra deg riktig. Selfi-mode b
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
 
             Matrix matrix = new Matrix();
-
             matrix.postRotate(90);
-            // Snu bitmap
+
             resultBitmap = createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         } catch (Exception exception) {
             Log.d("Rotate", "Kunne ikke snu bildet");

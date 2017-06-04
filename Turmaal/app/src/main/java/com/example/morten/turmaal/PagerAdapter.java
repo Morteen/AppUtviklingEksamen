@@ -14,21 +14,30 @@ public class PagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    /***
+     * Starter et nytt fragment som tilsvarer posisjonen man velger
+     * @param position
+     * @return fragmentet man blar til
+     */
     @Override
     public Fragment getItem(int position) {
-        if(position==0){
+        if (position == 0) {
             return new ValgtTurmaalFragment();
-        }else{
+        } else {
 
-            //return new ForeldreFragment();
             return new MapFragment();
         }
 
 
     }
 
+    /***
+     * Gir hvor mange fragmenter man kan bla i, i dette tilfelle bare 2
+     * @return
+     */
     @Override
     public int getCount() {
+
         return 2;
     }
 }

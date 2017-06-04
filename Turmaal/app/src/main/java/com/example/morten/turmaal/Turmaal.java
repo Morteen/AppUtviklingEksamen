@@ -100,11 +100,11 @@ public class Turmaal {
     }
 
     public void setAvstand(Turmaal m, Location l) {
-    Location mLoc = new Location("mLoc");
+        Location mLoc = new Location("mLoc");
         mLoc.setLatitude(m.getBreddegrad());
         mLoc.setLongitude(m.getLengdegrad());
 
-        avstand=(int)l.distanceTo(mLoc);
+        avstand = (int) l.distanceTo(mLoc);
 
 
     }
@@ -124,25 +124,29 @@ public class Turmaal {
     static final String KOL_NAVN_Bilde_URL = "BildeURL";
 
 
-
-
-
     // Konstruktør som bygger Turmaalobjekt basert på et JSONObject-objekt
     public Turmaal(JSONObject jsonTurmaal) throws JSONException {
-        this.setNavn( jsonTurmaal.optString(KOL_NAVN_Navn));
+        this.setNavn(jsonTurmaal.optString(KOL_NAVN_Navn));
         this.setType(jsonTurmaal.optString(KOL_NAVN_Type));
-        this.setBeskrivelse(jsonTurmaal.optString(KOL_NAVN_Beskrivelse)) ;
-        this.setHoyde(jsonTurmaal.optInt(KOL_NAVN_Hoyde)); ;
+        this.setBeskrivelse(jsonTurmaal.optString(KOL_NAVN_Beskrivelse));
+        this.setHoyde(jsonTurmaal.optInt(KOL_NAVN_Hoyde));
+        ;
         this.setBreddegrad(Float.valueOf(jsonTurmaal.getString(KOL_NAVN_Breddegrad)));
-        this.setLengdegrad(Float.valueOf(jsonTurmaal.getString(KOL_NAVN_Lengdegrad))) ;
+        this.setLengdegrad(Float.valueOf(jsonTurmaal.getString(KOL_NAVN_Lengdegrad)));
         this.setRegAnsvarlig(jsonTurmaal.optString(KOL_NAVN_RegAnsvarlig));
-        this.setBilde_URL(jsonTurmaal.optString(KOL_NAVN_Bilde_URL));  ;
-
+        this.setBilde_URL(jsonTurmaal.optString(KOL_NAVN_Bilde_URL));
+        ;
 
 
     }
 
-    // Metode som lager en ArrayList med Turmaal-objekter basert på en streng med JSONdata
+    /***
+     *  Metode som lager en ArrayList med Turmaal-objekter basert på en streng med JSONdata
+     * @param jsonTurmaalString
+     * @return En liste med turmaål
+     * @throws JSONException
+     * @throws NullPointerException
+     */
     public static ArrayList<Turmaal> lagTurListe(String jsonTurmaalString)
             throws JSONException, NullPointerException {
         ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
@@ -155,39 +159,48 @@ public class Turmaal {
         }
         return turmaalListe;
     }
-//Lager en liste med turmål fra data i SQLitebasen
-public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
-    ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
-    while(cursor.moveToNext()){
-        Turmaal maal= new Turmaal();
-        maal.setNavn(cursor.getString(cursor.getColumnIndex("NAVN")));
-        maal.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
-        maal.setHoyde(cursor.getInt(cursor.getColumnIndex("HOYDE")));
-        maal.setBeskrivelse(cursor.getString(cursor.getColumnIndex("BESKRIVELSE")));
-        maal.setRegAnsvarlig(cursor.getString(cursor.getColumnIndex("REGANSVARLIG")));
-        maal.setLengdegrad(cursor.getFloat(cursor.getColumnIndex("LENGDEGRAD")));
-        maal.setBreddegrad(cursor.getFloat(cursor.getColumnIndex( "BREDDEGRAD")));
-        maal.setBilde_URL(cursor.getString(cursor.getColumnIndex( "BILDEURL")));
 
-        turmaalListe.add(maal);
+    /***
+     * En liste med turmaal
+     * Lager en liste med turmål fra data i SQLitebasen
+     * @param cursor
+     * @return
+     */
+    public static ArrayList<Turmaal> lagTurListeFraSqlite(Cursor cursor) {
+        ArrayList<Turmaal> turmaalListe = new ArrayList<Turmaal>();
+        while (cursor.moveToNext()) {
+            Turmaal maal = new Turmaal();
+            maal.setNavn(cursor.getString(cursor.getColumnIndex("NAVN")));
+            maal.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
+            maal.setHoyde(cursor.getInt(cursor.getColumnIndex("HOYDE")));
+            maal.setBeskrivelse(cursor.getString(cursor.getColumnIndex("BESKRIVELSE")));
+            maal.setRegAnsvarlig(cursor.getString(cursor.getColumnIndex("REGANSVARLIG")));
+            maal.setLengdegrad(cursor.getFloat(cursor.getColumnIndex("LENGDEGRAD")));
+            maal.setBreddegrad(cursor.getFloat(cursor.getColumnIndex("BREDDEGRAD")));
+            maal.setBilde_URL(cursor.getString(cursor.getColumnIndex("BILDEURL")));
+
+            turmaalListe.add(maal);
+        }
+
+        return turmaalListe;
+
     }
 
-    return turmaalListe;
-
-}
-
-//Lager et Json objekt
+    /***
+     * Lager et Json objekt fra et Turmaal objekt
+     * @return SONObject
+     */
     public JSONObject toJSONObject() {
         JSONObject jsonTurmaal = new JSONObject();
         try {
             jsonTurmaal.put(KOL_NAVN_Navn, this.navn);
             jsonTurmaal.put(KOL_NAVN_Type, this.type);
             jsonTurmaal.put(KOL_NAVN_Hoyde, this.hoyde);
-            jsonTurmaal.put( KOL_NAVN_Beskrivelse, this.beskrivelse);
-            jsonTurmaal.put( KOL_NAVN_Breddegrad, this.breddegrad);
-            jsonTurmaal.put( KOL_NAVN_Lengdegrad, this.Lengdegrad);
-            jsonTurmaal.put( KOL_NAVN_RegAnsvarlig, this.regAnsvarlig);
-            jsonTurmaal.put( KOL_NAVN_Bilde_URL, this.bilde_URL);
+            jsonTurmaal.put(KOL_NAVN_Beskrivelse, this.beskrivelse);
+            jsonTurmaal.put(KOL_NAVN_Breddegrad, this.breddegrad);
+            jsonTurmaal.put(KOL_NAVN_Lengdegrad, this.Lengdegrad);
+            jsonTurmaal.put(KOL_NAVN_RegAnsvarlig, this.regAnsvarlig);
+            jsonTurmaal.put(KOL_NAVN_Bilde_URL, this.bilde_URL);
 
 
         } catch (JSONException e) {
@@ -195,25 +208,25 @@ public static ArrayList<Turmaal>lagTurListeFraSqlite(Cursor cursor){
         }
         return jsonTurmaal;
     }
-//Metode for å sortere listen etter avstand fra der brukeren er
-   public static void sorterListe(ArrayList<Turmaal> list,Location l) {
-        for(int i=0;i<list.size();i++){
-            list.get(i).setAvstand(list.get(i),l);
+
+    /***
+     * Metode for å sortere listen etter avstand fra der brukeren er
+     * @param list
+     * @param l
+     */
+    public static void sorterListe(ArrayList<Turmaal> list, Location l) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setAvstand(list.get(i), l);
         }
         Collections.sort(list, new Comparator<Turmaal>() {
             public int compare(Turmaal mVal1, Turmaal mVal2) {
                 // For å prøve å unngå NullPointerException
-               Long tm1 = new Long(mVal1.getAvstand());
+                Long tm1 = new Long(mVal1.getAvstand());
                 Long tm2 = new Long(mVal2.getAvstand());
                 return tm1.compareTo(tm2);
             }
         });
     }
-
-
-
-
-
 
 
 }

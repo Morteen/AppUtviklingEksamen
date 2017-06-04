@@ -1,7 +1,7 @@
 package com.example.morten.turmaal;
 /**
  * Dette fragmentet viser turmålets plassering på kartet etter brukeren har trykket på et mål i listen
- * */
+ */
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,11 +19,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends android.support.v4.app.Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private final float ZOOMVERDI = 10.2F;
 
     public MapFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +34,10 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-         View view =inflater.inflate(R.layout.activity_maps, container, false);
+               View view = inflater.inflate(R.layout.activity_maps, container, false);
 
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager()//getSupportFragmentManager
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()//getSupportFragmentManager
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -46,19 +45,21 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         return view;
     }
 
-
+    /***
+     * Setteren markør i riktig posisjon på kartet og zoomer ned til valgte verdi
+     * @param googleMap
+     */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
 
-
         //Flytter markøren og kamera til valgte posisjon
         LatLng valgteTM = new LatLng(MainActivity.curTm.getBreddegrad(), MainActivity.curTm.getLengdegrad());
         mMap.addMarker(new MarkerOptions().position(valgteTM).title(MainActivity.curTm.getNavn()));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(valgteTM));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valgteTM, 10.2f));//10.2 er zoom level
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valgteTM, ZOOMVERDI));
 
     }
 }

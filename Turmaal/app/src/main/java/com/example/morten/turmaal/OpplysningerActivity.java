@@ -91,7 +91,8 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
                 DatabaseOperasjoner dbOp = new DatabaseOperasjoner(OpplysningerActivity.this);
                 dbOp.putInformation(dbOp, maal);
 
-                //Intent for å gå tilbake til Main
+                //Intent for å gå tilbake til Main med bundel med boolean true for ikke
+                //bli logget ut i Main
                 Bundle b = new Bundle();
                 b.putBoolean("Tilgang", true);
 
@@ -141,7 +142,7 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
 
     }
 
-    // Callbackmetode som kalles etter at bruker har svart på spørsmål om rettigheter
+
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         if (requestCode == REQUEST_LOCATION) {
@@ -171,6 +172,10 @@ public class OpplysningerActivity extends AppCompatActivity implements GoogleApi
         Toast.makeText(getApplicationContext(), "Får ikke kontakt med Google Play Services", Toast.LENGTH_LONG).show();
     }
 
+    /***
+     * Lagrer posisjon i et Turmaal objekt, legger og så på landet man er i
+     * @param posisjon
+     */
     private void visMinPos(Location posisjon) {
         if (posisjon != null) {
             double lengdeGrad = posisjon.getLongitude();

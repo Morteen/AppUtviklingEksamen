@@ -68,7 +68,7 @@ public class TurAdapter extends BaseAdapter {
 
 
         Turmaal currentMaal = mineTuraal.get(position);
-
+        //Setter verdien til  turmaal objektet  i denne posisjonen i riktig textview
         viewHolder.tvStartNavn.setText(currentMaal.getNavn());
         viewHolder.tvStartType.setText(currentMaal.getType());
         viewHolder.tvStartHoyde.setText(Integer.toString(currentMaal.getHoyde()) + " meter");
@@ -83,7 +83,7 @@ public class TurAdapter extends BaseAdapter {
     }
 
 
-    ///Dette må tilpasses XML filen
+
     private static class ViewHolder {
         public TextView tvStartNavn;
         public TextView tvStartType;
